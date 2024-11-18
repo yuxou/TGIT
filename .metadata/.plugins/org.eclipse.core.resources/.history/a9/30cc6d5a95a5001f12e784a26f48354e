@@ -1,0 +1,121 @@
+package model.dao;
+
+import java.sql.*;
+import java.util.*;
+import model.domain.Review;
+
+public class ReviewDAO {
+
+    // 리뷰 추가
+    public void addReview(Review review) {
+        String sql = "INSERT INTO reviews (reviewId, placeId, userId, rating, reviewDate, comment) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, review.getReviewId());
+            pstmt.setInt(2, review.getPlaceId());
+            pstmt.setInt(3, review.getUserId());
+            pstmt.setDouble(4, review.getRating());
+            pstmt.setDate(5, new java.sql.Date(review.getReviewDate().getTime()));
+            pstmt.setString(6, review.getComment());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 리뷰 수정
+    public void editReview(Review updatedReview) {
+        String sql = "UPDATE reviews SET placeId = ?, userId = ?, rating = ?, reviewDate = ?, comment = ? WHERE reviewId = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, updatedReview.getPlaceId());
+            pstmt.setInt(2, updatedReview.getUserId());
+            pstmt.setDouble(3, updatedReview.getRating());
+            pstmt.setDate(4, new java.sql.Date(updatedReview.getReviewDate().getTime()));
+            pstmt.setString(5, updatedReview.getComment());
+            pstmt.setInt(6, updatedReview.getReviewId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 리뷰 삭제
+    public void deleteReview(int reviewId) {
+        String sql = "DELETE FROM reviews WHERE reviewId = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, reviewId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 리뷰 조회
+    public Optional<Review> viewReview(int reviewId) {
+        String sql = "SELECT * FROM reviews WHERE reviewId = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, reviewId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                Review review = new Review(
+                    rs.getInt("reviewId"),
+                    rs.getInt("placeId"),
+                    rs.getInt("userId"),
+                    rs.getDouble("rating"),
+                    rs.getDate("reviewDate").toLocalDate().getYear(),
+                    rs.getDate("reviewDate").toLocalDate().getMonthValue(),
+                    rs.getDate("reviewDate").toLocalDate().getDayOfMonth(),
+                    rs.getString("comment")
+                );
+                return Optional.of(review);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    // 날짜별 리뷰 정렬 (데이터베이스에서 가져온 후 정렬)
+    public List<Review> sortReviewByDate() {
+        List<Review> reviews = getAllReviews();
+        reviews.sort(Comparator.comparing(Review::getReviewDate));
+        return reviews;
+    }
+
+    // 평점별 리뷰 정렬 (데이터베이스에서 가져온 후 정렬)
+    public List<Review> sortReviewByRating() {
+        List<Review> reviews = getAllReviews();
+        reviews.sort(Comparator.comparingDouble(Review::getRating).reversed());
+        return reviews;
+    }
+
+    // 모든 리뷰 조회
+    private List<Review> getAllReviews() {
+        List<Review> reviews = new ArrayList<>();
+        String sql = "SELECT * FROM reviews";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Review review = new Review(
+                    rs.getInt("reviewId"),
+                    rs.getInt("placeId"),
+                    rs.getInt("userId"),
+                    rs.getDouble("rating"),
+                    rs.getDate("reviewDate").toLocalDate().getYear(),
+                    rs.getDate("reviewDate").toLocalDate().getMonthValue(),
+                    rs.getDate("reviewDate").toLocalDate().getDayOfMonth(),
+                    rs.getString("comment")
+                );
+                reviews.add(review);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reviews;
+    }
+}

@@ -1,0 +1,20 @@
+package repository.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCUtil {
+    private static final String URL = "jdbc:mysql://dblab.dongduk.ac.kr/TGIT";
+    private static final String USER = "dbp240106";
+    private static final String PASSWORD = "113842";
+
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            System.err.println("Database connection failed: " + e.getMessage());
+            throw new RuntimeException("Failed to connect to the database", e);
+        }
+    }
+}

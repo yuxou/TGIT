@@ -1,0 +1,92 @@
+package model.domain;
+
+import java.util.Calendar;
+import java.util.Date;
+
+public class User {
+	private String userId;
+	private String password;
+	private String name;
+	private Date birthday;
+	private String email;
+	
+	public User() { }
+	
+	public User(String userId, String password, String name, int year, int month, int day, String email) {
+		this.userId = userId;
+		this.password = password;
+		this.name = name;
+		this.birthday =  createDate(year, month, day);
+		this.email = email;
+	}
+	
+	public User(String userId, String password) {
+		this.userId = userId;
+		this.password = password;
+	}
+	
+	public User(String name, int year, int month, int day, String email) {
+		this.name = name;
+		this.birthday = createDate(year, month, day);
+		this.email = email;
+	}
+	
+	// id, pw 변경
+	public void updateCredentials(User updateUser) {
+	    this.userId = updateUser.userId;
+	    this.password = updateUser.password;
+	}
+
+	// 이름, 생년월일, 이메일 변경
+	public void updateInfo(User updateUser) {
+	    this.name = updateUser.name;
+	    this.birthday = updateUser.birthday;
+	    this.email = updateUser.email;
+	}
+	
+	 private Date createDate(int year, int month, int day) {
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.set(year, month - 1, day); 
+	        return calendar.getTime();
+	    }
+	
+	public String getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public Date getBirthday() {
+		return birthday;
+	}
+	
+	public void setBirthday(int year, int month, int day) {
+        this.birthday = createDate(year, month, day);
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+}

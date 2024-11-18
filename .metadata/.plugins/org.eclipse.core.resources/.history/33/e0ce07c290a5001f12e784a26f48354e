@@ -1,0 +1,126 @@
+package model.dao;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import model.domain.Checklist;
+import model.domain.ChecklistItem;
+import repository.jdbc.*;
+import repository.mybatis.*;
+
+public class ChecklistDAO {
+
+    // 체크리스트 추가
+    public int addChecklist(Checklist checklist) {
+        String sql = "INSERT INTO checklists (category) VALUES (?)";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, checklist.getCategory());
+            pstmt.executeUpdate();
+            
+            // 체크리스트 ID를 생성하여 반환
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // 실패 시 -1 반환
+    }
+    
+    // 특정 체크리스트의 항목 추가
+    public void addItem(int checklistId, ChecklistItem item) {
+        String sql = "INSERT INTO checklist_items (name, completed, checklist_id) VALUES (?, ?, ?)";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, item.getName());
+            pstmt.setBoolean(2, item.isCompleted());
+            pstmt.setInt(3, checklistId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // 특정 카테고리에 해당하는 체크리스트 조회
+    public Checklist viewChecklist(int checklistId) {
+        String checklistSql = "SELECT * FROM checklists WHERE checklist_id = ?";
+        String itemsSql = "SELECT * FROM checklist_items WHERE checklist_id = ?";
+        
+        Checklist checklist = null;
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement checklistStmt = conn.prepareStatement(checklistSql);
+             PreparedStatement itemsStmt = conn.prepareStatement(itemsSql)) {
+            
+            // 체크리스트 조회
+            checklistStmt.setInt(1, checklistId);
+            ResultSet checklistRs = checklistStmt.executeQuery();
+            if (checklistRs.next()) {
+                String category = checklistRs.getString("category");
+                checklist = new Checklist(checklistId, category, new ArrayList<>());
+            }
+            
+            // 항목 조회 및 추가
+            if (checklist != null) {
+                itemsStmt.setInt(1, checklistId);
+                ResultSet itemsRs = itemsStmt.executeQuery();
+                while (itemsRs.next()) {
+                    ChecklistItem item = new ChecklistItem(
+                        itemsRs.getInt("item_id"),
+                        itemsRs.getString("name"),
+                        itemsRs.getBoolean("completed")
+                    );
+                    checklist.getItems().add(item);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return checklist;
+    }
+
+    // 완료 항목 조회
+    public List<ChecklistItem> completedItems(int checklistId) {
+        String sql = "SELECT * FROM checklist_items WHERE checklist_id = ? AND completed = true";
+        List<ChecklistItem> items = new ArrayList<>();
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, checklistId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                ChecklistItem item = new ChecklistItem(
+                    rs.getInt("item_id"), 
+                    rs.getString("name"), 
+                    rs.getBoolean("completed")
+                );
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+    
+    // 미완료 항목 조회
+    public List<ChecklistItem> incompletedItems(int checklistId) {
+        String sql = "SELECT * FROM checklist_items WHERE checklist_id = ? AND completed = false";
+        List<ChecklistItem> items = new ArrayList<>();
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, checklistId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                ChecklistItem item = new ChecklistItem(
+                    rs.getInt("item_id"), 
+                    rs.getString("name"), 
+                    rs.getBoolean("completed")
+                );
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+}
