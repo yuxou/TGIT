@@ -30,7 +30,7 @@ public class UserAnalysis {
 		
 		List<User> friends = new ArrayList<User>();
 		
-		List<User> userList = dao.findUserList(1, 10000);
+		List<User> userList = dao.findUserList();
 		Iterator<User> userIter = userList.iterator();		
 		while (userIter.hasNext()) {
 			User user = (User)userIter.next();

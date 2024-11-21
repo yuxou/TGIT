@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="repository.mybatis.mapper.UserMapper">
+
+	<cache />
+
+    <!-- 사용자 추가 -->
+    <insert id="create" parameterType="model.domain.User" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO USERINFO (userId, password, name, email, phone, commId)
+        VALUES (#{userId}, #{password}, #{name}, #{email}, #{phone}, #{commId})
+    </insert>
+
+    <!-- 사용자 정보 수정 -->
+    <update id="update" parameterType="model.domain.User">
+        UPDATE USERINFO
+        SET password = #{password},
+            name = #{name},
+            email = #{email},
+            phone = #{phone},
+            commId = #{commId}
+        WHERE userId = #{userId}
+    </update>
+
+    <!-- 사용자 삭제 -->
+    <delete id="remove" parameterType="string">
+        DELETE FROM USERINFO WHERE userId = #{userId}
+    </delete>
+
+    <!-- 사용자 ID로 사용자 조회 -->
+    <select id="findUser" parameterType="string" resultType="model.domain.User">
+        SELECT password, name, email, phone, commId, cName
+        FROM USERINFO u
+        LEFT OUTER JOIN Community c ON u.commId = c.cId
+        WHERE userId = #{userId}
+    </select>
+
+    <!-- 전체 사용자 조회 -->
+    <select id="findUserList" resultType="model.domain.User">
+        SELECT userId, name, email, NVL(commId, 0) AS commId, cName
+        FROM USERINFO u
+        LEFT OUTER JOIN Community c ON u.commId = c.cId
+        ORDER BY userId
+    </select>
+
+    <!-- 특정 커뮤니티에 속한 사용자 조회 -->
+    <select id="findUsersInCommunity" parameterType="int" resultType="model.domain.User">
+        SELECT userId, name, email, phone
+        FROM USERINFO
+        WHERE commId = #{communityId}
+    </select>
+
+    <!-- 커뮤니티에 속한 사용자 수 조회 -->
+    <select id="getNumberOfUsersInCommunity" parameterType="int" resultType="int">
+        SELECT COUNT(userId)
+        FROM USERINFO
+        WHERE commId = #{communityId}
+    </select>
+
+    <!-- 사용자 ID 존재 여부 체크 -->
+    <select id="existingUser" parameterType="string" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM USERINFO
+        WHERE userId = #{userId}
+    </select>
+
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="repository.mybatis.mapper.PlanMapper">
+
+    <cache />
+    
+    <!-- 일정 추가 -->
+    <insert id="createPlan" useGeneratedKeys="true" keyProperty="planId">
+        INSERT INTO plans (planId, planTitle, country, startDate, endDate, isPublic, writerId)
+        VALUES (planId_seq.nextval, #{planTitle}, #{country}, #{startDate}, #{endDate}, #{isPublic}, #{writer.userId})
+    </insert>
+
+    <!-- 일정 수정 -->
+    <update id="editPlan">
+        UPDATE plans
+        SET planTitle = #{planTitle},
+            startDate = #{startDate},
+            endDate = #{endDate},
+            country = #{country}
+        WHERE planId = #{planId}
+    </update>
+
+    <!-- 일정 삭제 -->
+    <delete id="deletePlan">
+        DELETE FROM plans WHERE planId = #{planId}
+    </delete>
+
+    <!-- 일정 검색 -->
+    <select id="searchPlans" resultType="model.domain.Plan">
+        SELECT * FROM plans
+        WHERE planTitle LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <!-- 일정 상세 조회 -->
+    <select id="findPlanById" resultType="model.domain.Plan">
+        SELECT * FROM plans
+        WHERE planId = #{planId}
+    </select>
+
+    <!-- 모든 일정 조회 -->
+    <select id="getAllPlans" resultType="model.domain.Plan">
+        SELECT * FROM plans
+    </select>
+
+    <!-- 비행기 일정 추가 -->
+    <insert id="addFlightsToPlan">
+        INSERT INTO flights (planId, flightId, departure, destination, departureDate, departureTime, arrivalDate, arrivalTime, cost)
+        VALUES (#{planId}, #{flightId}, #{departure}, #{destination}, #{departureDate}, #{departureTime}, #{arrivalDate}, #{arrivalTime}, #{cost})
+    </insert>
+
+    <!-- 숙소 추가 -->
+    <insert id="addAccommodationsToPlan">
+        INSERT INTO accommodations (planId, accommodationId, name, checkInDate, checkOutDate, cost)
+        VALUES (#{planId}, #{accommodationId}, #{name}, #{checkInDate}, #{checkOutDate}, #{cost})
+    </insert>
+
+    <!-- 동행자 추가 -->
+    <insert id="addCompanionToPlan">
+        INSERT INTO plan_companions (planId, companionId)
+        VALUES (#{planId}, #{companion.userId})
+    </insert>
+
+    <!-- 동행자 삭제 -->
+    <delete id="deleteCompanion">
+        DELETE FROM plan_companions
+        WHERE planId = #{planId} AND companionId = #{companionId}
+    </delete>
+
+</mapper>

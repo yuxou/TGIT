@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" !>
+<configuration>
+	<typeAliases> <!-- type에 대한 별칭 정의 -->
+		<typeAlias type=“model.Comment" alias="Comment"/>
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" /> <!-- transaction 처리 방식 -->
+			<dataSource type="POOLED"> <!-- data source (DBCP) 설정 -->
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://dblab.dongduk.ac.kr/TGIT" />
+				<property name="username" value="dbp240106" />
+				<property name="password" value="113842" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers> <!-- mapper XML file 또는 mapper interface 설정 -->
+		<mapper resource=“repository/mybatis/mapper/CommentMapper.xml" />
+		<mapper class="repository.mybatis.mapper.CommentMapper2" />
+	</mappers>
+</configuration>
