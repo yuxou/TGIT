@@ -17,8 +17,21 @@
         completed
     </sql>
 
+    <!-- Checklist ResultMap -->
+    <resultMap id="checklistResultMap" type="Checklist">
+        <id property="checklistId" column="checklist_id" />
+        <result property="category" column="category" />
+    </resultMap>
+
+    <!-- ChecklistItem ResultMap -->
+    <resultMap id="checklistItemResultMap" type="ChecklistItem">
+        <id property="itemId" column="item_id" />
+        <result property="name" column="name" />
+        <result property="completed" column="completed" />
+    </resultMap>
+
     <!-- 체크리스트 조회 (단일) -->
-    <select id="selectChecklistByPrimaryKey" parameterType="int" resultType="Checklist">
+    <select id="selectChecklistByPrimaryKey" parameterType="int" resultMap="checklistResultMap">
         SELECT 
             <include refid="BaseColumns"/>
         FROM checklist
@@ -26,7 +39,7 @@
     </select>
 
     <!-- 체크리스트와 항목 조회 -->
-    <select id="selectChecklistWithItems" parameterType="int" resultType="Checklist">
+    <select id="selectChecklistWithItems" parameterType="int" resultMap="checklistResultMap">
         SELECT 
             <include refid="BaseColumns"/>
         FROM checklist
@@ -46,7 +59,7 @@
     </insert>
 
     <!-- 체크리스트 항목 조회 -->
-    <select id="selectItemsByChecklistId" parameterType="int" resultType="ChecklistItem">
+    <select id="selectItemsByChecklistId" parameterType="int" resultMap="checklistItemResultMap">
         SELECT 
             <include refid="ItemColumns"/>
         FROM checklist_items
@@ -54,7 +67,7 @@
     </select>
 
     <!-- 완료된 항목 조회 -->
-    <select id="selectCompletedItems" parameterType="int" resultType="ChecklistItem">
+    <select id="selectCompletedItems" parameterType="int" resultMap="checklistItemResultMap">
         SELECT 
             <include refid="ItemColumns"/>
         FROM checklist_items
@@ -62,7 +75,7 @@
     </select>
 
     <!-- 미완료 항목 조회 -->
-    <select id="selectIncompletedItems" parameterType="int" resultType="ChecklistItem">
+    <select id="selectIncompletedItems" parameterType="int" resultMap="checklistItemResultMap">
         SELECT 
             <include refid="ItemColumns"/>
         FROM checklist_items

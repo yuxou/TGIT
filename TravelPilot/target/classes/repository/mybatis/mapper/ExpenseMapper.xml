@@ -15,8 +15,18 @@
         notes
     </sql>
 
+    <!-- Expense ResultMap -->
+    <resultMap id="expenseResultMap" type="Expense">
+        <id property="expenseId" column="expense_id" />
+        <result property="place" column="place" />
+        <result property="expenseDate" column="expense_date" />
+        <result property="category" column="category" />
+        <result property="cost" column="cost" />
+        <result property="notes" column="notes" />
+    </resultMap>
+
     <!-- 지출 조회 (단일) -->
-    <select id="selectExpenseById" parameterType="int" resultType="Expense">
+    <select id="selectExpenseById" parameterType="int" resultMap="expenseResultMap">
         SELECT 
             <include refid="BaseColumns"/>
         FROM expenses

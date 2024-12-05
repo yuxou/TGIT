@@ -627,3 +627,4 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact junit:junit:j
 2024-11-21 14:56:08,651 [Worker-61: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 11 resources from src\main\resources to target\classes
 2024-11-21 14:56:08,656 [Worker-61: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\luna0\Desktop\new\TravelPilot\src\test\resources
 2024-11-21 14:57:13,310 [Worker-52: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 11 resources from src\main\resources to target\classes
+2024-11-21 14:57:13,317 [Worker-52: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\luna0\Desktop\new\TravelPilot\src\test\resources

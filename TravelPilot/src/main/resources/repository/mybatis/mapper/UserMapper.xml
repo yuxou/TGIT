@@ -5,6 +5,15 @@
 
 	<cache />
 
+    <!-- User ResultMap 정의 -->
+    <resultMap id="userResultMap" type="model.domain.User">
+        <id property="userId" column="userId" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="email" column="email" />
+        <result property="phone" column="phone" />
+    </resultMap>
+
     <!-- 사용자 추가 -->
     <insert id="create" parameterType="model.domain.User" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO USERINFO (userId, password, name, email, phone)
@@ -27,22 +36,22 @@
     </delete>
 
     <!-- 사용자 ID로 사용자 조회 -->
-    <select id="findUser" parameterType="string" resultType="model.domain.User">
-        SELECT password, name, email, phone
+    <select id="findUser" parameterType="string" resultMap="userResultMap">
+        SELECT userId, password, name, email, phone
         FROM USERINFO
         WHERE userId = #{userId}
     </select>
 
     <!-- 전체 사용자 조회 -->
-    <select id="findUserList" resultType="model.domain.User">
-        SELECT userId, name, email
+    <select id="findUserList" resultMap="userResultMap">
+        SELECT userId, name, email, phone
         FROM USERINFO
         ORDER BY userId
     </select>
 
     <!-- 사용자 ID 존재 여부 체크 -->
     <select id="existingUser" parameterType="string" resultType="boolean">
-        SELECT COUNT(*) > 0
+        SELECT COUNT(*) > 0 AS exists
         FROM USERINFO
         WHERE userId = #{userId}
     </select>

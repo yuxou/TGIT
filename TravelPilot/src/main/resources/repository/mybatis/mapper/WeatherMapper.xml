@@ -5,6 +5,15 @@
 
     <cache />
 
+    <!-- Weather ResultMap 정의 -->
+    <resultMap id="weatherResultMap" type="Weather">
+        <id property="weatherId" column="weather_id" />
+        <result property="temperature" column="temperature" />
+        <result property="condition" column="condition" />
+        <result property="updateTime" column="update_time" />
+        <result property="location" column="location" />
+    </resultMap>
+
     <!-- 기본 컬럼 리스트 정의 -->
     <sql id="WeatherColumns">
         weather_id AS weatherId,
@@ -15,7 +24,7 @@
     </sql>
 
     <!-- 날씨 정보 조회 -->
-    <select id="selectWeatherByPlaceId" parameterType="int" resultType="Weather">
+    <select id="selectWeatherByPlaceId" parameterType="int" resultMap="weatherResultMap">
         SELECT 
             <include refid="WeatherColumns"/>
         FROM weather
@@ -25,7 +34,9 @@
     <!-- 날씨 정보 업데이트 -->
     <update id="updateWeather" parameterType="Weather">
         UPDATE weather
-        SET temperature = #{temperature}, condition = #{condition}, update_time = #{updateTime}
+        SET temperature = #{temperature}, 
+            condition = #{condition}, 
+            update_time = #{updateTime}
         WHERE location = #{location}
     </update>
 

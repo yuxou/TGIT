@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="repository.mybatis.mapper.PlaceMapper">
+
+    <cache />
+
+    <!-- 기본 컬럼 리스트 정의 -->
+    <sql id="BaseColumns">
+        place_id AS placeId,
+        name,
+        location,
+        memo
+    </sql>
+
+    <!-- 장소 추가 -->
+    <insert id="insertPlace" parameterType="Place">
+        INSERT INTO places (placeId, name, location, memo)
+        VALUES (#{placeId}, #{name}, #{location}, #{memo})
+    </insert>
+
+    <!-- 모든 장소 조회 -->
+    <select id="selectAllPlaces" resultType="Place">
+        SELECT 
+            <include refid="BaseColumns"/>
+        FROM places
+    </select>
+
+    <!-- 장소 메모 추가 -->
+    <update id="updatePlaceMemo" parameterType="Map">
+        UPDATE places
+        SET memo = #{memo}
+        WHERE placeId = #{placeId}
+    </update>
+
+    <!-- 장소 메모 수정 -->
+    <update id="editPlaceMemo" parameterType="Map">
+        UPDATE places
+        SET memo = #{newMemo}
+        WHERE placeId = #{placeId}
+    </update>
+
+    <!-- 장소 메모 삭제 -->
+    <update id="deletePlaceMemo" parameterType="int">
+        UPDATE places
+        SET memo = NULL
+        WHERE placeId = #{placeId}
+    </update>
+
+    <!-- 장소 검색 (키워드) -->
+    <select id="searchPlaces" parameterType="String" resultType="Place">
+        SELECT 
+            <include refid="BaseColumns"/>
+        FROM places
+        WHERE LOWER(name) LIKE LOWER(CONCAT('%', #{keyword}, '%'))
+    </select>
+
+</mapper>

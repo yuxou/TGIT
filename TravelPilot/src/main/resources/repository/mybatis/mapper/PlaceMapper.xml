@@ -13,6 +13,14 @@
         memo
     </sql>
 
+    <!-- Place ResultMap -->
+    <resultMap id="placeResultMap" type="Place">
+        <id property="placeId" column="place_id" />
+        <result property="name" column="name" />
+        <result property="location" column="location" />
+        <result property="memo" column="memo" />
+    </resultMap>
+
     <!-- 장소 추가 -->
     <insert id="insertPlace" parameterType="Place">
         INSERT INTO places (placeId, name, location, memo)
@@ -20,7 +28,7 @@
     </insert>
 
     <!-- 모든 장소 조회 -->
-    <select id="selectAllPlaces" resultType="Place">
+    <select id="selectAllPlaces" resultMap="placeResultMap">
         SELECT 
             <include refid="BaseColumns"/>
         FROM places
@@ -48,7 +56,7 @@
     </update>
 
     <!-- 장소 검색 (키워드) -->
-    <select id="searchPlaces" parameterType="String" resultType="Place">
+    <select id="searchPlaces" parameterType="String" resultMap="placeResultMap">
         SELECT 
             <include refid="BaseColumns"/>
         FROM places
