@@ -8,6 +8,7 @@ import model.service.AccommodationManager;
 
 public class AddAccommodationController implements Controller {
 
+	
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int planId = Integer.parseInt(request.getParameter("planId"));

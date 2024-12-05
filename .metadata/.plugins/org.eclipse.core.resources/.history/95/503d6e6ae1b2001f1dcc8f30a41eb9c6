@@ -1,0 +1,45 @@
+package controller.accommodation;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import controller.Controller;
+import model.dao.PlanDAO;
+import model.domain.Accommodation;
+
+public class AddAccommodationController implements Controller {
+
+    @Override
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
+        int planId = Integer.parseInt(request.getParameter("planId"));
+        String name = request.getParameter("name");
+
+        // 체크인 및 체크아웃 날짜 파싱
+        String[] checkInParts = request.getParameter("checkInDate").split("-");
+        String[] checkOutParts = request.getParameter("checkOutDate").split("-");
+
+        int checkInYear = Integer.parseInt(checkInParts[0]);
+        int checkInMonth = Integer.parseInt(checkInParts[1]);
+        int checkInDay = Integer.parseInt(checkInParts[2]);
+
+        int checkOutYear = Integer.parseInt(checkOutParts[0]);
+        int checkOutMonth = Integer.parseInt(checkOutParts[1]);
+        int checkOutDay = Integer.parseInt(checkOutParts[2]);
+
+        double cost = Double.parseDouble(request.getParameter("cost"));
+
+        // Accommodation 객체 생성
+        Accommodation accommodation = new Accommodation(0, name, checkInYear, checkInMonth, checkInDay, 
+                                                         checkOutYear, checkOutMonth, checkOutDay, cost);
+
+        // PlanDAO를 통해 숙소 추가
+        PlanDAO planDAO = new PlanDAO();
+        try {
+            planDAO.addAccommodationsToPlan(planId, List.of(accommodation)); // 숙소 리스트로 전달
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/error.jsp"; // 에러 페이지로 이동
+        }
+
+        return "/plan/viewPlan.jsp?planId=" + planId; // 성공 시 계획 상세 페이지로 이동
+    }
+}

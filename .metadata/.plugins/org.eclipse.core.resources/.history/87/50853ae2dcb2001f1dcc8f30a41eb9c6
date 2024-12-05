@@ -1,0 +1,190 @@
+package model.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
+
+import model.dao.PlanDAO;
+import model.dao.PlaceDAO;
+import model.dao.ChecklistDAO;
+import model.domain.Accommodation;
+import model.domain.Checklist;
+import model.domain.Flight;
+import model.domain.Place;
+import model.domain.Plan;
+import model.domain.User;
+
+public class PlanManager {
+    private PlanDAO planDAO;
+    private PlaceDAO placeDAO;
+    private ChecklistDAO checklistDAO;
+
+    // 생성자
+    public PlanManager(PlanDAO planDAO, PlaceDAO placeDAO, ChecklistDAO checklistDAO) {
+        this.planDAO = planDAO;
+        this.placeDAO = placeDAO;
+        this.checklistDAO = checklistDAO;
+    }
+
+    /**
+     * 새로운 계획 생성
+     * @param plan
+     * @return 생성된 계획
+     */
+    public Plan createPlan(Plan plan) {
+        try {
+            return planDAO.createPlan(plan);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to create plan");
+        }
+    }
+
+    /**
+     * 계획 수정
+     * @param plan
+     * @return 수정된 행 수
+     */
+    public int editPlan(Plan plan) {
+        try {
+            return planDAO.editPlan(plan);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to edit plan");
+        }
+    }
+
+    /**
+     * 계획 삭제
+     * @param planId
+     */
+    public void deletePlan(int planId) {
+        try {
+            // 체크리스트와 관련된 항목 삭제
+            checklistDAO.viewChecklist(planId).getItems().forEach(item -> {
+                try {
+                    checklistDAO.addItem(planId, item); // 삭제된 아이템 처리
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            // 계획 삭제
+            planDAO.deletePlan(planId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to delete plan");
+        }
+    }
+
+    /**
+     * 계획 검색
+     * @param keyword
+     * @return 검색된 계획 리스트
+     */
+    public List<Plan> searchPlans(String keyword) {
+        try {
+            return planDAO.searchPlans(keyword);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to search plans");
+        }
+    }
+
+    /**
+     * 계획 상세 조회
+     * @param planId
+     * @return 계획 상세 정보
+     */
+    public Optional<Plan> findPlanById(int planId) {
+        try {
+            return planDAO.findPlanById(planId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to find plan by ID");
+        }
+    }
+
+    /**
+     * 모든 계획 조회
+     * @return 계획 리스트
+     */
+    public List<Plan> getAllPlans() {
+        try {
+            return planDAO.getAllPlans();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to get all plans");
+        }
+    }
+
+    /**
+     * 특정 계획에 장소 추가
+     * @param planId
+     * @param place
+     */
+    public void addPlaceToPlan(int planId, Place place) {
+        try {
+            placeDAO.addPlace(place);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to add place to plan");
+        }
+    }
+
+    /**
+     * 특정 계획에 체크리스트 추가
+     * @param planId
+     * @param checklist
+     */
+    public void addChecklistToPlan(int planId, Checklist checklist) {
+        try {
+            checklistDAO.addChecklist(checklist);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to add checklist to plan");
+        }
+    }
+
+    /**
+     * 특정 계획에 동행자 추가
+     * @param planId
+     * @param user
+     */
+    public void addCompanionToPlan(int planId, User user) {
+        try {
+            planDAO.addCompanionToPlan(planId, user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to add companion to plan");
+        }
+    }
+
+    /**
+     * 특정 계획에 비행 일정 추가
+     * @param planId
+     * @param flight
+     */
+    public void addFlightToPlan(int planId, Flight flight) {
+        try {
+            planDAO.addFlightsToPlan(planId, List.of(flight));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to add flight to plan");
+        }
+    }
+
+    /**
+     * 특정 계획에 숙소 추가
+     * @param planId
+     * @param accommodation
+     */
+    public void addAccommodationToPlan(int planId, Accommodation accommodation) {
+        try {
+            planDAO.addAccommodationsToPlan(planId, List.of(accommodation));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to add accommodation to plan");
+        }
+    }
+}

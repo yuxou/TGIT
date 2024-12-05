@@ -26,35 +26,48 @@ public class PlanDAO {
      */
     public Plan createPlan(Plan plan) throws Exception {
         String sql = "INSERT INTO plans (planId, planTitle, country, startDate, endDate, isPublic, writerId) VALUES (planId_seq.nextval, ?, ?, ?, ?, ?, ?)";
-        Object[] param = new Object[] { plan.getPlanTitle(), plan.getCountry(),
-                new java.sql.Date(plan.getStartDate().getTime()), new java.sql.Date(plan.getEndDate().getTime()), 
-                plan.isPublic(), plan.getWriter().getUserId() };
+        Object[] param = new Object[] { 
+            plan.getPlanTitle(), 
+            plan.getCountry(),
+            new java.sql.Date(plan.getStartDate().getTime()), 
+            new java.sql.Date(plan.getEndDate().getTime()), 
+            plan.isPublic(), 
+            plan.getWriter().getUserId() 
+        };
 
         jdbcUtil.setSqlAndParameters(sql, param);
 
-        String[] key = { "planId" }; 
+        String[] key = { "planId" };
         try {
-            jdbcUtil.executeUpdate(key); 
+            jdbcUtil.executeUpdate(key);
             ResultSet rs = jdbcUtil.getGeneratedKeys();
             if (rs.next()) {
-                int generatedKey = rs.getInt(1); // 생성된 planId
-                plan.setPlanId(generatedKey); // 생성된 planId를 plan 객체에 저장
+                int generatedKey = rs.getInt(1);
+                plan.setPlanId(generatedKey);
             }
 
-            // 비행기 일정 및 숙소 추가
-            addFlightsToPlan(plan.getPlanId(), plan.getFlightInfo());
-            addAccommodationsToPlan(plan.getPlanId(), plan.getAccommodationInfo());
+            // 비행 일정 추가
+            if (plan.getFlightInfo() != null && !plan.getFlightInfo().isEmpty()) {
+                for (Flight flight : plan.getFlightInfo()) {
+                    addFlightToPlan(plan.getPlanId(), flight);
+                }
+            }
+
+            // 숙소 추가
+            if (plan.getAccommodationInfo() != null && !plan.getAccommodationInfo().isEmpty()) {
+                addAccommodationsToPlan(plan.getPlanId(), plan.getAccommodationInfo());
+            }
 
             return plan;
         } catch (SQLException e) {
             jdbcUtil.rollback();
-            e.printStackTrace();
+            throw e;
         } finally {
             jdbcUtil.commit();
-            jdbcUtil.close(); // resource 반환
+            jdbcUtil.close();
         }
-        return null;
     }
+
 
     /**
      * 일정 수정 
@@ -199,33 +212,118 @@ public class PlanDAO {
     }
 
     /**
-     * 비행 일정 추가
+     * 특정 계획에 비행 일정 추가
      * @param planId
-     * @param flightInfo
-     * @throws Exception
+     * @param flight
      */
-    private void addFlightsToPlan(int planId, List<Flight> flightInfo) throws Exception {
+    public void addFlightToPlan(int planId, Flight flight) throws Exception {
         String sql = "INSERT INTO flights (planId, flightId, departure, destination, departureDate, departureTime, arrivalDate, arrivalTime, cost) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        for (Flight flight : flightInfo) {
-            Object[] param = new Object[] {
-                planId, flight.getFlightId(), flight.getDeparture(),
-                flight.getDestination(), new java.sql.Date(flight.getDepartureDate().getTime()),
-                flight.getDepartureTime(), new java.sql.Date(flight.getArrivalDate().getTime()),
-                flight.getArrivalTime(), flight.getCost()
-            };
-            
-            jdbcUtil.setSqlAndParameters(sql, param);  // JDBCUtil 객체를 사용하여 SQL과 파라미터 설정
-            try {
-                jdbcUtil.executeUpdate();  // SQL 실행
-            } catch (SQLException e) {
-                jdbcUtil.rollback();
-                e.printStackTrace();
-            } finally {
-                jdbcUtil.commit();
-                jdbcUtil.close();  // 리소스 반환
+                   + "VALUES (?, flight_seq.nextval, ?, ?, ?, ?, ?, ?, ?)";
+        Object[] param = new Object[] {
+            planId, flight.getDeparture(), flight.getDestination(),
+            new java.sql.Date(flight.getDepartureDate().getTime()), flight.getDepartureTime(),
+            new java.sql.Date(flight.getArrivalDate().getTime()), flight.getArrivalTime(), flight.getCost()
+        };
+
+        jdbcUtil.setSqlAndParameters(sql, param);
+
+        try {
+            jdbcUtil.executeUpdate();
+        } catch (SQLException e) {
+            jdbcUtil.rollback();
+            throw e;
+        }
+    }
+
+
+    /**
+     * 특정 계획의 모든 비행 일정 조회
+     * @param planId
+     * @return 비행 일정 리스트
+     */
+    public List<Flight> getFlightsByPlanId(int planId) throws SQLException {
+        String sql = "SELECT * FROM flights WHERE planId = ?";
+        jdbcUtil.setSqlAndParameters(sql, new Object[] { planId });
+
+        List<Flight> flights = new ArrayList<>();
+        try (ResultSet rs = jdbcUtil.executeQuery()) {
+            while (rs.next()) {
+                // 출발 날짜와 도착 날짜를 java.sql.Date로 가져오기
+                java.sql.Date departureDate = rs.getDate("departureDate");
+                java.sql.Date arrivalDate = rs.getDate("arrivalDate");
+
+                // Flight 객체 생성
+                Flight flight = new Flight(
+                    rs.getInt("flightId"),
+                    rs.getString("departure"),
+                    rs.getString("destination"),
+                    departureDate.toLocalDate().getYear(),
+                    departureDate.toLocalDate().getMonthValue(),
+                    departureDate.toLocalDate().getDayOfMonth(),
+                    rs.getString("departureTime"),
+                    arrivalDate.toLocalDate().getYear(),
+                    arrivalDate.toLocalDate().getMonthValue(),
+                    arrivalDate.toLocalDate().getDayOfMonth(),
+                    rs.getString("arrivalTime"),
+                    rs.getDouble("cost")
+                );
+
+                flights.add(flight);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            jdbcUtil.close();
+        }
+
+        return flights;
+    }
+
+
+    /**
+     * 특정 비행 일정 수정
+     * @param flightId
+     * @param updatedFlight
+     */
+    public void updateFlight(int flightId, Flight updatedFlight) throws Exception {
+        String sql = "UPDATE flights SET departure = ?, destination = ?, departureDate = ?, departureTime = ?, arrivalDate = ?, arrivalTime = ?, cost = ? "
+                   + "WHERE flightId = ?";
+        Object[] param = new Object[] {
+            updatedFlight.getDeparture(), updatedFlight.getDestination(),
+            new java.sql.Date(updatedFlight.getDepartureDate().getTime()), updatedFlight.getDepartureTime(),
+            new java.sql.Date(updatedFlight.getArrivalDate().getTime()), updatedFlight.getArrivalTime(),
+            updatedFlight.getCost(), flightId
+        };
+
+        jdbcUtil.setSqlAndParameters(sql, param);
+
+        try {
+            jdbcUtil.executeUpdate();
+        } catch (SQLException e) {
+            jdbcUtil.rollback();
+            e.printStackTrace();
+        } finally {
+            jdbcUtil.commit();
+            jdbcUtil.close();
+        }
+    }
+
+    /**
+     * 특정 비행 일정 삭제
+     * @param flightId
+     */
+    public void deleteFlight(int flightId) throws Exception {
+        String sql = "DELETE FROM flights WHERE flightId = ?";
+        jdbcUtil.setSqlAndParameters(sql, new Object[] { flightId });
+
+        try {
+            jdbcUtil.executeUpdate();
+        } catch (SQLException e) {
+            jdbcUtil.rollback();
+            e.printStackTrace();
+        } finally {
+            jdbcUtil.commit();
+            jdbcUtil.close();
         }
     }
 
@@ -236,28 +334,29 @@ public class PlanDAO {
      * @throws Exception
      */
     private void addAccommodationsToPlan(int planId, List<Accommodation> accommodationInfo) throws Exception {
-        String sql = "INSERT INTO accommodations (planId, accommodationId, name, checkInDate, checkOutDate, cost) "
-                   + "VALUES (?, ?, ?, ?, ?, ?)";
-        
-        for (Accommodation accommodation : accommodationInfo) {
-            Object[] param = new Object[] {
-                planId, accommodation.getAccommodationId(), accommodation.getName(),
-                new java.sql.Date(accommodation.getCheckInDate().getTime()),
-                new java.sql.Date(accommodation.getCheckOutDate().getTime()), accommodation.getCost()
-            };
-            
-            jdbcUtil.setSqlAndParameters(sql, param);  // JDBCUtil 객체를 사용하여 SQL과 파라미터 설정
-            try {
-                jdbcUtil.executeUpdate();  // SQL 실행
-            } catch (SQLException e) {
-                jdbcUtil.rollback();
-                e.printStackTrace();
-            } finally {
-                jdbcUtil.commit();
-                jdbcUtil.close();  // 리소스 반환
+        String sql = "INSERT INTO accommodations (planId, name, checkInDate, checkOutDate, cost) "
+                   + "VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            for (Accommodation accommodation : accommodationInfo) {
+                Object[] param = new Object[] {
+                    planId, accommodation.getName(),
+                    new java.sql.Date(accommodation.getCheckInDate().getTime()),
+                    new java.sql.Date(accommodation.getCheckOutDate().getTime()), accommodation.getCost()
+                };
+
+                jdbcUtil.setSqlAndParameters(sql, param);
+                jdbcUtil.executeUpdate();
             }
+            jdbcUtil.commit(); // 모든 작업 성공 시 커밋
+        } catch (SQLException e) {
+            jdbcUtil.rollback(); // 오류 발생 시 롤백
+            throw new Exception("숙소 추가 중 오류 발생: " + e.getMessage(), e);
+        } finally {
+            jdbcUtil.close(); // 리소스 정리
         }
     }
+
     
     /**
      * 동행자 추가
