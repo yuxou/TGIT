@@ -123,4 +123,37 @@ public class PlanManager {
             throw new RuntimeException("Failed to delete flight ID: " + flightId);
         }
     }
+    
+    
+    
+    //동반자 companion 관련 메서드 추가 
+    
+    /**
+     * 계획에 동반자 추가
+     * @param planId
+     * @param companion
+     */
+    public void addCompanionToPlan(int planId, User companion) {
+        try {
+            planDAO.addCompanionToPlan(planId, companion);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to add companion to plan ID: " + planId);
+        }
+    }
+
+    /**
+     * 계획에서 동반자 삭제
+     * @param planId
+     * @param companionId
+     */
+    public void deleteCompanion(int planId, int companionId) {
+        try {
+            planDAO.deleteCompanion(planId, companionId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to delete companion from plan ID: " + planId);
+        }
+    }
+}
 }
