@@ -2,8 +2,12 @@ package controller.accommodation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import controller.Controller;
-import model.service.AccommodationManager;
+import model.domain.Accommodation;
+import model.service.PlanManager;
+
+import java.sql.Date;
 
 public class EditAccommodationController implements Controller {
 
@@ -11,15 +15,20 @@ public class EditAccommodationController implements Controller {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int accommodationId = Integer.parseInt(request.getParameter("accommodationId"));
         String name = request.getParameter("name");
-        String checkInDate = request.getParameter("checkInDate");
-        String checkOutDate = request.getParameter("checkOutDate");
+        Date checkInDate = Date.valueOf(request.getParameter("checkInDate"));
+        Date checkOutDate = Date.valueOf(request.getParameter("checkOutDate"));
         double cost = Double.parseDouble(request.getParameter("cost"));
 
-        // Accommodation 정보 수정
-        AccommodationManager accommodationManager = AccommodationManager.getInstance();
-        accommodationManager.updateAccommodation(accommodationId, name, checkInDate, checkOutDate, cost);
+        Accommodation updatedAccommodation = new Accommodation();
+        updatedAccommodation.setAccommodationId(accommodationId);
+        updatedAccommodation.setName(name);
+        updatedAccommodation.setCheckInDate(checkInDate);
+        updatedAccommodation.setCheckOutDate(checkOutDate);
+        updatedAccommodation.setCost(cost);
 
-        int planId = Integer.parseInt(request.getParameter("planId"));
-        return "/plan/viewPlan.jsp?planId=" + planId;
+        PlanManager planManager = PlanManager.getInstance();
+        planManager.updateAccommodation(updatedAccommodation);
+
+        return "/myPage.jsp";
     }
 }

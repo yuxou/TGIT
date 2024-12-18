@@ -2,6 +2,7 @@ package controller.place;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import controller.Controller;
 import model.domain.Place;
 import model.service.PlaceManager;
@@ -16,6 +17,6 @@ public class ViewPlaceController implements Controller {
         Place place = placeManager.getPlaceById(placeId);
 
         request.setAttribute("place", place);
-        return "/place/viewPlace.jsp"; // 장소 상세보기 페이지로 이동
+        return "/myPage.jsp";
     }
 }

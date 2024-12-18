@@ -2,9 +2,11 @@ package controller.place;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import controller.Controller;
 import model.domain.Place;
 import model.service.PlaceManager;
+
 import java.util.List;
 
 public class ListPlacesController implements Controller {
@@ -15,6 +17,6 @@ public class ListPlacesController implements Controller {
         List<Place> places = placeManager.getAllPlaces();
 
         request.setAttribute("places", places);
-        return "/place/listPlaces.jsp"; // 장소 목록 페이지로 이동
+        return "/myPage.jsp";
     }
 }

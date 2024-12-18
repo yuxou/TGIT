@@ -2,36 +2,40 @@ package controller.flight;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import controller.Controller;
 import model.domain.Flight;
-import model.service.FlightManager;
+import model.service.PlanManager;
+
+import java.sql.Date;
 
 public class AddFlightController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // 요청에서 Flight 데이터 가져오기
         int planId = Integer.parseInt(request.getParameter("planId"));
         String departure = request.getParameter("departure");
-        String arrival = request.getParameter("arrival");
+        String destination = request.getParameter("destination");
+        Date departureDate = Date.valueOf(request.getParameter("departureDate")); // yyyy-MM-dd
         String departureTime = request.getParameter("departureTime");
+        Date arrivalDate = Date.valueOf(request.getParameter("arrivalDate"));     // yyyy-MM-dd
         String arrivalTime = request.getParameter("arrivalTime");
         double cost = Double.parseDouble(request.getParameter("cost"));
 
         // Flight 객체 생성
         Flight flight = new Flight();
-        flight.setPlanId(planId);
         flight.setDeparture(departure);
-        flight.setArrival(arrival);
+        flight.setDestination(destination);
+        flight.setDepartureDate(departureDate);
         flight.setDepartureTime(departureTime);
+        flight.setArrivalDate(arrivalDate);
         flight.setArrivalTime(arrivalTime);
         flight.setCost(cost);
 
-        // FlightManager를 통해 데이터 추가
-        FlightManager flightManager = FlightManager.getInstance();
-        flightManager.addFlight(flight);
+        // PlanManager를 통해 비행 일정 추가
+        PlanManager planManager = PlanManager.getInstance();
+        planManager.addFlightToPlan(planId, flight);
 
-        // Plan 상세 페이지로 리디렉션
-        return "/plan/viewPlan.jsp?planId=" + planId;
+        return "/myPage.jsp";
     }
 }

@@ -2,22 +2,23 @@ package controller.flight;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import controller.Controller;
-import model.service.FlightManager;
+import model.service.PlanManager;
 
 public class DeleteFlightController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // 요청에서 Flight ID 가져오기
+        // 요청에서 Flight ID와 Plan ID 가져오기
         int flightId = Integer.parseInt(request.getParameter("flightId"));
-
-        // FlightManager를 통해 삭제
-        FlightManager flightManager = FlightManager.getInstance();
-        flightManager.deleteFlight(flightId);
-
-        // Flight가 속한 Plan 상세 페이지로 리디렉션
         int planId = Integer.parseInt(request.getParameter("planId"));
-        return "/plan/viewPlan.jsp?planId=" + planId;
+
+        // PlanManager를 통해 비행 일정 삭제
+        PlanManager planManager = PlanManager.getInstance();
+        planManager.deleteFlight(flightId);
+
+        // Plan 상세 페이지로 리디렉션
+        return "/myPage.jsp"; 
     }
 }

@@ -2,7 +2,7 @@ package controller.plan;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+
 import controller.Controller;
 import model.domain.Plan;
 import model.service.PlanManager;
@@ -15,14 +15,13 @@ public class ViewPlanController implements Controller {
         String userId = (String) request.getSession().getAttribute("userId");
 
         PlanManager planManager = PlanManager.getInstance();
-        Plan plan = planManager.getPlanWithDetails(planId); // Plan 조회
+        Plan plan = planManager.findPlanById(planId).orElse(null); // Plan 조회
 
-        // 공개된 Plan인지, 또는 작성자/참여자인지 확인
-        if (!plan.isPublic() && !planManager.isUserAuthorizedForPlan(planId, userId)) {
-            return "/plan/unauthorized.jsp"; // 권한이 없으면 접근 불가 페이지로 이동
+        // Plan이 존재하지 않거나 권한이 없으면 데이터 전달하지 않음
+        if (plan != null && (plan.isPublic() || planManager.isUserAuthorizedForPlan(planId, userId))) {
+            request.setAttribute("plan", plan); // Plan 정보만 전달
         }
 
-        request.setAttribute("plan", plan); // Plan 데이터를 View에 전달
-        return "/plan/viewPlan.jsp";
+        return "/myPage.jsp";
     }
 }
