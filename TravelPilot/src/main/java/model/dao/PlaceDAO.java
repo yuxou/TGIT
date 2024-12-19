@@ -31,25 +31,6 @@ public class PlaceDAO {
             jdbcUtil.close(); // resource 반환
         }
     }
-    
-    /**
-     * 장소 삭제
-     * @param place
-     * @throws Exception
-     */
-    public void deletePlace(int placeId) throws Exception {
-        String sql = "DELETE FROM places WHERE placeId = ?";
-        Object[] param = new Object[] { placeId };
-        jdbcUtil.setSqlAndParameters(sql, param); // DELETE SQL 설정
-        try {
-            jdbcUtil.executeUpdate(); // DELETE 실행
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            jdbcUtil.close(); // 리소스 반환
-        }
-    }
-
 
     /**
      * 모든 장소 조회

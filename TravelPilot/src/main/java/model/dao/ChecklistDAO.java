@@ -68,85 +68,6 @@ public class ChecklistDAO {
             jdbcUtil.close();
         }
     }
-    
-    /**
-     * 체크리스트 삭제
-     * @param checklistId
-     * @throws SQLException
-     */
-    public void deleteChecklist(int checklistId) throws SQLException {
-        // 체크리스트 항목 삭제
-        String deleteItemsSql = "DELETE FROM checklist_items WHERE checklist_id = ?";
-        jdbcUtil.setSqlAndParameters(deleteItemsSql, new Object[] { checklistId });
-
-        try {
-            jdbcUtil.executeUpdate();
-        } catch (Exception e) {
-            jdbcUtil.rollback();
-            e.printStackTrace();
-            throw new RuntimeException("Failed to delete checklist items");
-        }
-
-        // 체크리스트 삭제
-        String deleteChecklistSql = "DELETE FROM checklists WHERE checklist_id = ?";
-        jdbcUtil.setSqlAndParameters(deleteChecklistSql, new Object[] { checklistId });
-
-        try {
-            jdbcUtil.executeUpdate();
-        } catch (Exception e) {
-            jdbcUtil.rollback();
-            e.printStackTrace();
-            throw new RuntimeException("Failed to delete checklist");
-        } finally {
-            jdbcUtil.commit();
-            jdbcUtil.close();
-        }
-    }
-    
-    /**
-     * 특정 항목을 삭제
-     * @param itemId 
-     * @throws SQLException
-     */
-    public void deleteChecklistItem(int itemId) throws SQLException {
-        String sql = "DELETE FROM checklist_items WHERE item_id = ?";
-        Object[] params = new Object[] { itemId };
-        jdbcUtil.setSqlAndParameters(sql, params);
-
-        try {
-            jdbcUtil.executeUpdate();
-        } catch (Exception e) {
-            jdbcUtil.rollback();
-            e.printStackTrace();
-            throw new RuntimeException("Failed to delete checklist item");
-        } finally {
-            jdbcUtil.commit();
-            jdbcUtil.close();
-        }
-    }
-
-    /**
-     * 체크리스트 아이템 수정
-     * @param checklistId
-     * @param item
-     * @throws SQLException
-     */
-    public void editChecklistItem(ChecklistItem item) throws SQLException {
-        String sql = "UPDATE checklist_items SET name = ?, completed = ? WHERE item_id = ?";
-        Object[] params = new Object[] { item.getName(), item.isCompleted(), item.getItemId() };
-        jdbcUtil.setSqlAndParameters(sql, params);
-
-        try {
-            jdbcUtil.executeUpdate();
-        } catch (Exception e) {
-            jdbcUtil.rollback();
-            e.printStackTrace();
-            throw new RuntimeException("Failed to update checklist item");
-        } finally {
-            jdbcUtil.commit();
-            jdbcUtil.close();
-        }
-    }
 
     /**
      * 특정 체크리스트와 항목을 조회
@@ -186,29 +107,6 @@ public class ChecklistDAO {
             jdbcUtil.close();
         }
         return checklist;
-    }
-    
-    /**
-     * 체크리스트 아이템 완료/미완료 변경
-     * @param checklistId
-     * @return
-     * @throws SQLException
-     */
-    public void updateItemStatus(int itemId, boolean isCompleted) throws SQLException {
-        String sql = "UPDATE checklist_items SET completed = ? WHERE item_id = ?";
-        Object[] params = new Object[] { isCompleted, itemId };
-        jdbcUtil.setSqlAndParameters(sql, params);
-
-        try {
-            jdbcUtil.executeUpdate();
-        } catch (Exception e) {
-            jdbcUtil.rollback();
-            e.printStackTrace();
-            throw new RuntimeException("Failed to update item status");
-        } finally {
-            jdbcUtil.commit();
-            jdbcUtil.close();
-        }
     }
 
     /**
