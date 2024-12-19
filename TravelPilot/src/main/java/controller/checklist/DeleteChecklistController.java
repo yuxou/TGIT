@@ -13,8 +13,8 @@ public class DeleteChecklistController implements Controller {
         int checklistId = Integer.parseInt(request.getParameter("checklistId"));
 
         ChecklistManager checklistManager = ChecklistManager.getInstance();
-        checklistManager.deleteChecklist(checklistId);
+        checklistManager.deleteChecklist(checklistId); // 체크리스트 삭제
 
-        return "/myPage.jsp";
+        return "/checklist/listChecklists.jsp"; // 체크리스트 목록 페이지로 이동
     }
 }

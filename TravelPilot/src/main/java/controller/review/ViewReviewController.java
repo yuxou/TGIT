@@ -15,14 +15,15 @@ public class ViewReviewController implements Controller {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int reviewId = Integer.parseInt(request.getParameter("reviewId"));
 
-        ReviewManager reviewManager = new ReviewManager(new ReviewDAO());
+        ReviewManager reviewManager = ReviewManager.getInstance();
         Optional<Review> review = reviewManager.viewReview(reviewId);
 
         if (review.isPresent()) {
             request.setAttribute("review", review.get());
-            return "/review/viewReview.jsp"; // 리뷰 상세 페이지로 이동
+            return "/review/viewReview.jsp";
         } else {
-            return "/error.jsp"; // 리뷰가 없는 경우 에러 처리
+            request.setAttribute("error", "리뷰를 찾을 수 없습니다.");
+            return "/error.jsp";
         }
     }
 }

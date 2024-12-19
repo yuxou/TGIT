@@ -12,7 +12,6 @@ public class DeleteFlightController implements Controller {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         // 요청에서 Flight ID와 Plan ID 가져오기
         int flightId = Integer.parseInt(request.getParameter("flightId"));
-        int planId = Integer.parseInt(request.getParameter("planId"));
 
         // PlanManager를 통해 비행 일정 삭제
         PlanManager planManager = PlanManager.getInstance();

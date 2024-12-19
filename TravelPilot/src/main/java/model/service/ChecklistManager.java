@@ -47,6 +47,45 @@ public class ChecklistManager {
             throw new RuntimeException("Failed to add checklist item");
         }
     }
+    
+    /**
+     * 체크리스트 삭제
+     * @param checklistId
+     */
+    public void deleteChecklist(int checklistId) {
+        try {
+            checklistDAO.deleteChecklist(checklistId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to delete checklist");
+        }
+    }
+    
+    /**
+     * 체크리스트 항목 삭제
+     * @param itemId
+     */
+    public void deleteChecklistItem(int itemId) {
+        try {
+            checklistDAO.deleteChecklistItem(itemId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to delete checklist item");
+        }
+    }
+
+    /**
+     * 체크리스트 아이템 수정
+     * @param item
+     */
+    public void editChecklistItem(ChecklistItem item) {
+        try {
+            checklistDAO.editChecklistItem(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to edit checklist item");
+        }
+    }
 
     /**
      * 체크리스트 상세 조회
@@ -59,6 +98,20 @@ public class ChecklistManager {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to view checklist");
+        }
+    }
+    
+    /**
+     * 체크리스트 항목 완료/미완료 변경
+     * @param checklistId
+     * @return 미완료 항목 리스트
+     */
+    public void updateItemStatus(int itemId, boolean isCompleted) {
+        try {
+            checklistDAO.updateItemStatus(itemId, isCompleted); // DAO 호출
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to update item status");
         }
     }
 

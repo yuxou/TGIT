@@ -11,11 +11,10 @@ public class DeleteReviewController implements Controller {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int reviewId = Integer.parseInt(request.getParameter("reviewId"));
-        int placeId = Integer.parseInt(request.getParameter("placeId"));
 
-        ReviewManager reviewManager = new ReviewManager(new ReviewDAO());
+        ReviewManager reviewManager = ReviewManager.getInstance();
         reviewManager.deleteReview(reviewId);
 
-        return "/place/viewPlace.jsp?placeId=" + placeId; // 삭제된 리뷰의 장소로 이동
+        return "/place/viewPlace.jsp";
     }
 }
