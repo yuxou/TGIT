@@ -4,10 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
-import model.domain.Expense;
 import model.service.ExpenseManager;
-
-import java.util.List;
 
 public class ViewExpensesController implements Controller {
 
@@ -16,9 +13,9 @@ public class ViewExpensesController implements Controller {
         int planId = Integer.parseInt(request.getParameter("planId"));
 
         ExpenseManager expenseManager = ExpenseManager.getInstance();
-        List<Expense> expenses = expenseManager.getExpensesByPlan(planId);
+        double totalExpense = expenseManager.getTotalExpense(planId);
 
-        request.setAttribute("expenses", expenses);
-        return "/viewExpenses.jsp"; // 지출 목록 JSP 페이지로 이동
+        request.setAttribute("totalExpense", totalExpense);
+        return "/viewExpenses.jsp";
     }
 }

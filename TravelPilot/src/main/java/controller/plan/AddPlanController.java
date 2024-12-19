@@ -3,11 +3,10 @@ package controller.plan;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.Controller;
 import model.domain.Plan;
 import model.domain.User;
 import model.service.PlanManager;
-
-import java.sql.Date;
 
 public class AddPlanController implements Controller {
 
@@ -16,28 +15,28 @@ public class AddPlanController implements Controller {
         // 요청에서 Plan 정보 가져오기
         String planTitle = request.getParameter("planTitle");
         String country = request.getParameter("country");
-        Date startDate = Date.valueOf(request.getParameter("startDate")); // yyyy-MM-dd 형식
-        Date endDate = Date.valueOf(request.getParameter("endDate"));     // yyyy-MM-dd 형식
+        int startYear = Integer.parseInt(request.getParameter("startYear"));
+        int startMonth = Integer.parseInt(request.getParameter("startMonth"));
+        int startDay = Integer.parseInt(request.getParameter("startDay"));
+        int endYear = Integer.parseInt(request.getParameter("endYear"));
+        int endMonth = Integer.parseInt(request.getParameter("endMonth"));
+        int endDay = Integer.parseInt(request.getParameter("endDay"));
         boolean isPublic = Boolean.parseBoolean(request.getParameter("isPublic"));
 
-        // 세션에서 사용자 ID 가져와 작성자 설정
         String writerId = (String) request.getSession().getAttribute("userId");
-        User writer = new User();
-        writer.setUserId(writerId);
+        User writer = new User(writerId, null, null, null, null);
 
-        // Plan 객체 생성
-        Plan newPlan = new Plan();
-        newPlan.setPlanTitle(planTitle);
-        newPlan.setCountry(country);
-        newPlan.setStartDate(startDate);
-        newPlan.setEndDate(endDate);
-        newPlan.setPublic(isPublic);
-        newPlan.setWriter(writer);
+        Plan plan = new Plan();
+        plan.setPlanTitle(planTitle);
+        plan.setCountry(country);
+        plan.setStartDate(startYear, startMonth, startDay);
+        plan.setEndDate(endYear, endMonth, endDay);
+        plan.setPublic(isPublic);
+        plan.setWriter(writer);
 
-        // PlanManager를 통해 새로운 Plan 생성
         PlanManager planManager = PlanManager.getInstance();
-        planManager.createPlan(newPlan);
+        planManager.createPlan(plan);
 
-        return "redirect:/myPage.jsp";
+        return "/myPage.jsp";
     }
 }

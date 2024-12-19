@@ -31,6 +31,20 @@ public class PlaceManager {
             throw new RuntimeException("Failed to add place");
         }
     }
+    
+    /**
+     * 장소 삭제
+     * @param place
+     */
+    public void deletePlace(int placeId) {
+        try {
+            placeDAO.deletePlace(placeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to delete place");
+        }
+    }
+
 
     /**
      * 모든 장소 조회

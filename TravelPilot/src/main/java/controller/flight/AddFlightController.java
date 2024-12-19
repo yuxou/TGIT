@@ -7,7 +7,8 @@ import controller.Controller;
 import model.domain.Flight;
 import model.service.PlanManager;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class AddFlightController implements Controller {
 
@@ -16,19 +17,22 @@ public class AddFlightController implements Controller {
         int planId = Integer.parseInt(request.getParameter("planId"));
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
-        Date departureDate = Date.valueOf(request.getParameter("departureDate")); // yyyy-MM-dd
+
+        // 날짜 파싱
+        LocalDate departureDate = LocalDate.parse(request.getParameter("departureDate"), DateTimeFormatter.ISO_DATE);
         String departureTime = request.getParameter("departureTime");
-        Date arrivalDate = Date.valueOf(request.getParameter("arrivalDate"));     // yyyy-MM-dd
+        LocalDate arrivalDate = LocalDate.parse(request.getParameter("arrivalDate"), DateTimeFormatter.ISO_DATE);
         String arrivalTime = request.getParameter("arrivalTime");
+
         double cost = Double.parseDouble(request.getParameter("cost"));
 
         // Flight 객체 생성
         Flight flight = new Flight();
         flight.setDeparture(departure);
         flight.setDestination(destination);
-        flight.setDepartureDate(departureDate);
+        flight.setDepartureDate(departureDate.getYear(), departureDate.getMonthValue(), departureDate.getDayOfMonth());
         flight.setDepartureTime(departureTime);
-        flight.setArrivalDate(arrivalDate);
+        flight.setArrivalDate(arrivalDate.getYear(), arrivalDate.getMonthValue(), arrivalDate.getDayOfMonth());
         flight.setArrivalTime(arrivalTime);
         flight.setCost(cost);
 
@@ -36,6 +40,6 @@ public class AddFlightController implements Controller {
         PlanManager planManager = PlanManager.getInstance();
         planManager.addFlightToPlan(planId, flight);
 
-        return "/myPage.jsp";
+        return "/myPage.jsp"; // 리턴 경로
     }
 }

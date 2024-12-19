@@ -6,6 +6,7 @@ import java.util.List;
 import model.dao.PlanDAO;
 import model.domain.Flight;
 import model.domain.Plan;
+import model.domain.User;
 
 public class PlanManager {
 	private static final PlanManager instance = new PlanManager(new PlanDAO());
@@ -160,5 +161,4 @@ public class PlanManager {
             throw new RuntimeException("Failed to delete companion from plan ID: " + planId);
         }
     }
-}
 }

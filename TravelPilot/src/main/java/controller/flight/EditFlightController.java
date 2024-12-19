@@ -7,7 +7,8 @@ import controller.Controller;
 import model.domain.Flight;
 import model.service.PlanManager;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class EditFlightController implements Controller {
 
@@ -17,9 +18,11 @@ public class EditFlightController implements Controller {
         int flightId = Integer.parseInt(request.getParameter("flightId"));
         String departure = request.getParameter("departure");
         String destination = request.getParameter("destination");
-        Date departureDate = Date.valueOf(request.getParameter("departureDate"));
+
+        // 날짜 파싱
+        LocalDate departureDate = LocalDate.parse(request.getParameter("departureDate"), DateTimeFormatter.ISO_DATE);
         String departureTime = request.getParameter("departureTime");
-        Date arrivalDate = Date.valueOf(request.getParameter("arrivalDate"));
+        LocalDate arrivalDate = LocalDate.parse(request.getParameter("arrivalDate"), DateTimeFormatter.ISO_DATE);
         String arrivalTime = request.getParameter("arrivalTime");
         double cost = Double.parseDouble(request.getParameter("cost"));
 
@@ -28,9 +31,9 @@ public class EditFlightController implements Controller {
         flight.setFlightId(flightId);
         flight.setDeparture(departure);
         flight.setDestination(destination);
-        flight.setDepartureDate(departureDate);
+        flight.setDepartureDate(departureDate.getYear(), departureDate.getMonthValue(), departureDate.getDayOfMonth());
         flight.setDepartureTime(departureTime);
-        flight.setArrivalDate(arrivalDate);
+        flight.setArrivalDate(arrivalDate.getYear(), arrivalDate.getMonthValue(), arrivalDate.getDayOfMonth());
         flight.setArrivalTime(arrivalTime);
         flight.setCost(cost);
 

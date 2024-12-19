@@ -15,6 +15,6 @@ public class DeletePlaceController implements Controller {
         PlaceManager placeManager = PlaceManager.getInstance();
         placeManager.deletePlace(placeId);
 
-        return "/myPage.jsp";
+        return "/myPage.jsp"; // 삭제 후 마이페이지로 이동
     }
 }

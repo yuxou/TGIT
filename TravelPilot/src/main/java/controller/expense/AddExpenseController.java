@@ -7,19 +7,20 @@ import controller.Controller;
 import model.domain.Expense;
 import model.service.ExpenseManager;
 
-import java.sql.Date;
-
 public class AddExpenseController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String place = request.getParameter("place");
-        Date expenseDate = Date.valueOf(request.getParameter("expenseDate")); // yyyy-MM-dd 형식
+        String[] expenseDateParts = request.getParameter("expenseDate").split("-");
+        int year = Integer.parseInt(expenseDateParts[0]);
+        int month = Integer.parseInt(expenseDateParts[1]);
+        int day = Integer.parseInt(expenseDateParts[2]);
         String category = request.getParameter("category");
         double cost = Double.parseDouble(request.getParameter("cost"));
         String notes = request.getParameter("notes");
 
-        Expense expense = new Expense(0, place, expenseDate, category, cost, notes);
+        Expense expense = new Expense(0, place, year, month, day, category, cost, notes);
 
         ExpenseManager expenseManager = ExpenseManager.getInstance();
         expenseManager.addExpense(expense);

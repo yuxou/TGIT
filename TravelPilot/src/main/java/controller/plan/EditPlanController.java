@@ -3,6 +3,7 @@ package controller.plan;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.Controller;
 import model.service.PlanManager;
 import model.domain.Plan;
 
@@ -10,17 +11,27 @@ public class EditPlanController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // 요청에서 Plan 데이터 가져오기
         int planId = Integer.parseInt(request.getParameter("planId"));
         String planTitle = request.getParameter("planTitle");
         String country = request.getParameter("country");
-        String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
+        int startYear = Integer.parseInt(request.getParameter("startYear"));
+        int startMonth = Integer.parseInt(request.getParameter("startMonth"));
+        int startDay = Integer.parseInt(request.getParameter("startDay"));
+        int endYear = Integer.parseInt(request.getParameter("endYear"));
+        int endMonth = Integer.parseInt(request.getParameter("endMonth"));
+        int endDay = Integer.parseInt(request.getParameter("endDay"));
         boolean isPublic = Boolean.parseBoolean(request.getParameter("isPublic"));
 
-        // PlanManager를 통해 Plan 수정
+        Plan updatedPlan = new Plan();
+        updatedPlan.setPlanId(planId);
+        updatedPlan.setPlanTitle(planTitle);
+        updatedPlan.setCountry(country);
+        updatedPlan.setStartDate(startYear, startMonth, startDay);
+        updatedPlan.setEndDate(endYear, endMonth, endDay);
+        updatedPlan.setPublic(isPublic);
+
         PlanManager planManager = PlanManager.getInstance();
-        planManager.editPlan(new Plan(planId, planTitle, country, startDate, endDate, isPublic));
+        planManager.editPlan(updatedPlan);
 
         return "/myPage.jsp";
     }
