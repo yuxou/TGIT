@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravlePilot: 마이페이지</title>
+    <link rel="stylesheet" href="../css/myPage.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="icon" href="../img/favicon.png" type="image/png">
+    <script>
+        // header.html 파일을 불러와서 삽입
+        function loadHeader() {
+            fetch('header.html') // header.html 파일을 가져옴
+                .then(response => response.text()) // 텍스트로 변환
+                .then(data => {
+                    document.getElementById('header-container').innerHTML = data; // 가져온 내용을 삽입
+                });
+        }
+
+        // DOM이 로드된 후 header를 불러오기
+        window.onload = function() {
+            loadHeader();
+        };
+
+        function bgGreen(){
+            var future = document.getElementById("future");
+            if (future.style.backgroundColor == "darkseagreen") {future.style.backgroundColor = "#f0f0f0";}
+            else {future.style.backgroundColor = "darkseagreen";}
+        }
+
+        function bgBlue(){
+            var past = document.getElementById("past");
+            if (past.style.backgroundColor == "cornflowerblue") {past.style.backgroundColor = "#f0f0f0";}
+            else {past.style.backgroundColor = "cornflowerblue";}
+        }
+
+    </script>
+</head>
+<body>
+    <div id="header-container"></div>
+    <div class="mypage-container">
+        <h1>마이페이지</h1>
+        <div class="profile-section">
+            <div class="profile-image">
+                <img src="../img/user.png" alt="User Profile Image">
+                <button class="edit-button" onClick="location.href='editProfile.html'">회원정보 수정</button>
+            </div>
+            <div>
+                <p>&emsp;&emsp;&emsp;</p>
+            </div>
+            <div class="profile-info">
+                <p><strong>아이디</strong>| dongduk12</p>
+                <p><strong>이름</strong>| 김동덕</p>
+                <p><strong>생년월일</strong>| 2000.01.23</p>
+                <p><strong>이메일</strong>| dongduk12@gamil.com</p>
+            </div>
+        </div>
+        <hr>
+        <h2>나의 계획</h2>
+        <div class="filter-section">
+            <p>Filter</p>&nbsp;&nbsp;
+            <button id="future" onClick="bgGreen()">예정된 계획</button>
+            <button id="past" onClick="bgBlue()">지난 계획</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>국가</th>
+                    <th>작성자</th>
+                    <th>여행 날짜</th>
+                    <th>경비</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><div class="future-circle"></div>유럽 여행</td>
+                    <td>파리 외 3곳</td>
+                    <td>김동덕 외 1인</td>
+                    <td>2024.10.16 - 2024.10.30</td>
+                    <td>3,500,000</td>
+                </tr>
+                <tr>
+                    <td><div class="past-circle"></div>도쿄 여행</td>
+                    <td>일본</td>
+                    <td>김동덕</td>
+                    <td>2024.6.10 - 2024.6.14</td>
+                    <td>1,200,000</td>
+                </tr>
+                <tr>
+                    <td><div class="past-circle"></div>친구들과 여행</td>
+                    <td>태국</td>
+                    <td>김동덕 외 2인</td>
+                    <td>2024.3.11 - 2024.6.14</td>
+                    <td>1,200,000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

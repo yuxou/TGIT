@@ -1,0 +1,104 @@
+.editInfo-container {
+    width: 50%;
+    background-color: #fff;
+    padding-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'NanumSquareRound', sans-serif;
+    text-align: center;
+}
+
+.editInfo-section {
+    display: inline-block;
+    padding: 20px 0;
+    text-align: left;
+}
+
+h1 {
+    text-align: left;
+    color: #1a3d7a;
+}
+
+h2 {
+    text-align: left;
+    color: #1a3d7a;
+}
+
+hr {
+    margin: 50px 0;
+}
+
+.edit-info {
+    display: inline-block;
+}
+
+.edit-info p {
+    margin: 0px 0;
+    font-size: 16px;
+    position: relative;
+    text-align: left;
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+.edit-info p strong {
+    display: inline-block;
+    width: 100px;
+}
+
+.email-box {
+    text-align: left;
+}
+
+.email-box input {
+    width: 338px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    padding-left: 10px;
+    margin: 10px;
+}
+
+.edit-button {
+    background-color: #8CA0CC;
+    color: #fff;
+    border: none;
+    padding: 12px 213px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'NanumSquareRound', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.edit-button:hover {
+    background-color: #2b50a5;
+}
+
+.id-box {
+    text-align: left;
+}
+
+.id-box input {
+    width: 230px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    padding-left: 10px;
+    margin: 10px;
+}
+
+.check-button {
+    background-color: #8CA0CC;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+.check-button:hover {
+    background-color: #2b50a5;
+}

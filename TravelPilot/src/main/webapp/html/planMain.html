@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelPilot</title>
+    <link rel="icon" href="../img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/planChecklist.css">
+    <link rel="stylesheet" href="../css/makePlan.css">
+    <link rel="stylesheet" href="../css/planMain.css">
+    <link rel="stylesheet" href="../css/calendar.css">
+    <link rel="stylesheet" href="../css/pikaday.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pikaday@1.8.2/pikaday.js"></script>
+    <script>
+        function loadHTML(file, containerId, callback) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(containerId).innerHTML = data;
+                    if (callback) callback();
+                });
+        }
+
+        window.onload = function() {
+            loadHTML('header.html', 'header-container');
+        };
+    </script>
+</head>
+<body>
+    <div id="header-container"></div> 
+    <div class="container">
+        <div class="title-container">
+            <!-- 폼 추가 -->
+            <form action="addPlan.do" method="post">
+                <input type="text" name="planTitle" value="제목을 입력하세요." required>
+                <div class="actions">
+                    <button type="submit" class="save-btn">저장</button>
+                    <nav class="tabs">
+                        <button type="button" id="planTab" class="tab active" onclick="showContent('makePlan')">일정</button>
+                        <button type="button" id="checklistTab" class="tab" onclick="showContent('planChecklist')">체크리스트</button>
+                    </nav>
+                </div>
+            </form>
+        </div>
+        <div id="content-container"></div>
+    </div>
+</body>
+</html>

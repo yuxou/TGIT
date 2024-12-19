@@ -1,0 +1,312 @@
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('../fonts/NanumSquareRoundOTFB.otf') format('opentype'); 
+}
+
+/* 폰트 설정 */
+body {
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+/* container */
+.container {
+    max-width: 1100px;
+    margin: 50px auto 0 auto;
+    padding: 30px;
+    background-color: #fafafad1;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 타이틀 스타일 조정 */
+h1 {
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 0.8em;
+    color: #777;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.section-title {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+/* 가게 이미지 */
+.image {
+    width: 600px;
+    height: auto;
+}
+
+/* 장소 소개 스타일 */
+.place-description {
+    background-color: #ffffff;
+    border-left: 4px solid #324F8A;
+    padding: 15px 20px;
+    margin-top: 15px;
+    font-size: 1em;
+    color: #333;
+    line-height: 1.6;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 지도 이미지 */
+.map-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.map-info {
+    margin-top: 20px;
+}
+
+.map-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 장소 정보 */
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+    gap: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+.section-title {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+
+/* 정보 아이템 */
+
+.info-item {
+    display: flex;
+    align-items: center;
+    background-color: #EEF0F7;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    margin-top: 40px;
+    height: 30px;
+}
+
+.info-item:hover {
+    background-color: #D9E0F3;
+}
+
+.icon {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+/* review */
+
+.review-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.rating {
+    font-size: 1.2em;
+    color: #FFD700;
+    margin: 5px 0;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+/* 리뷰 정렬 버튼 스타일 */
+.review-section button {
+    background-color: #E0E0E0;
+    color: black;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 1em;
+    margin-right: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.review-section button.selected {
+    background-color: #194091;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.review-section button:hover {
+    background-color: #4867aa;
+}
+
+/* 리뷰 정렬 버튼 아이콘 */
+.review-section button.selected:before {
+    content: "✔ ";
+}
+
+.review-section button:hover {
+    opacity: 0.9;
+}
+
+/* 리뷰의 코멘트 스타일 */
+.review p {
+    background-color: #EEF0F7; /* textarea와 동일한 색상 */
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px 0;
+    color: #333;
+    font-size: 1em;
+}
+
+/* 리뷰 정렬 버튼과 프로필 이미지 사이 간격 추가 */
+.review-section button {
+    margin-right: 15px; /* 간격 조절 */
+}
+
+/* 사용자 정보 스타일 */
+.user-info {
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+    gap: 10px; /* 이미지와 텍스트 사이 간격 */
+}
+
+/* 사용자 이름과 시간 각각 스타일 지정 */
+.user-info span {
+    font-size: 1em;
+    color: #333;
+}
+
+.user-info .username {
+    font-weight: bold;
+}
+
+.user-info .time-elapsed {
+    color: darkgray;
+    font-size: 0.9em; /* 시간 부분만 약간 작게 */
+}
+
+/* 라디오 버튼 숨김 (별점) */
+.star-input {
+    display: none;
+}
+
+/* 별 반쪽 스타일링 */
+.star-rating {
+    font-size: 0; /* 공백 제거를 위해 부모 요소의 폰트 크기를 0으로 설정 */
+}
+
+.star-label {
+    width: 18px; /* 별의 절반 너비 */
+    overflow: hidden;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.star-label .star-icon {
+    width: 18px; /* 원본 별 크기 */
+    height: 36px;
+    background-image: url("../img/empty_star.png"); /* 빈 별 이미지 */
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    display: block;
+    left: 0;
+}
+
+/* 왼쪽 절반 별 */
+.star-label--half .star-icon {
+    background-position: left; /* 왼쪽 절반을 표시 */
+}
+
+/* 오른쪽 절반 별 */
+.star-label--full .star-icon {
+    background-position: right; /* 오른쪽 절반을 표시 */
+}
+
+/* 선택된 별 스타일 (왼쪽 절반) */
+.star-label--half .star-icon.filled {
+    background-image: url("../img/filled_star.png"); /* 채워진 별 이미지 */
+    background-position: left;
+}
+
+/* 선택된 별 스타일 (오른쪽 절반) */
+.star-label--full .star-icon.filled {
+    background-image: url("../img/filled_star.png"); /* 채워진 별 이미지 */
+    background-position: right;
+}
+
+/* 리뷰 작성 textarea 스타일 */
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #FAFAFA;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-form textarea {
+    width: 100%;
+    height: 100px; /* 고정된 높이 설정 */
+    background-color: #EEF0F7;
+    border: none;
+    resize: none; /* 크기 조절 비활성화 */
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/* 리뷰 작성 버튼 스타일 */
+.review-form input[type="submit"] {
+    background-color: #194091;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.review-form input[type="submit"]:hover {
+    background-color: #163370;
+}

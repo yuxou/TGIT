@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('../fonts/NanumSquareRoundOTFB.otf') format('opentype'); 
+}
+
+.main {
+    margin-top: 150px;
+    text-align: center; 
+    position: relative; 
+}
+
+.title-image { /* 홈 화면 메인 텍스트 이미지 */
+    width: 900px;
+    margin-left: 20px;
+}
+
+/* 계획하기 버튼 위치 조정*/
+.btn-plan {
+    display: inline-block; /* 이미지와 수평 정렬 */
+    margin-top: 15px; 
+    margin-left: calc(900px - 280px); 
+}
+
+/* 계획하기 버튼 */
+.btn-plan a {
+    background-color: #324F8A; 
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 0; 
+    width: 140px; 
+    height: 45px; 
+    font-size: 24px;
+    font-family: 'NanumSquareRound', sans-serif;
+    border-radius: 20px;
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.6);
+}
+
+.btn-plan a:hover {
+    background-color: #29354F; /* 클릭 시 색상 */
+}

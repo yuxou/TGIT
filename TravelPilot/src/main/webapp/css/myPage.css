@@ -1,0 +1,138 @@
+.mypage-container {
+    width: 100%;
+    background-color: #fff;
+    padding: 30px;
+    margin-left: auto; 
+    margin-right: auto;
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+h1 {
+    text-align: left;
+    color: #1a3d7a;
+}
+
+.profile-section {
+    display: inline-flex;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info p {
+    margin: 15px 0;
+    font-size: 16px;
+    position: relative;
+    text-align: left;
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+.profile-info p strong {
+    display: inline-block;
+    width: 100px;
+}
+
+.profile-image {
+    text-align: center;
+}
+
+.profile-image img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+.edit-button {
+    background-color: #4B67A1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+.edit-button:hover {
+    background-color: #2b50a5;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+h2 {
+    color: #1a3d7a;
+    margin-bottom: 10px;
+}
+
+.filter-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-section button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+.filter-section span {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #555;
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+.filter-section button:hover {
+    background-color: #ddd;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-family: 'NanumSquareRound', sans-serif;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+.future-circle {
+  width: 25px;
+  height: 25px;
+  background-color: darkseagreen;
+  border-radius: 50%;
+  position: absolute;
+  margin: -3px 0 0 9px;
+}
+
+.past-circle {
+  width: 25px;
+  height: 25px;
+  background-color: cornflowerblue;
+  border-radius: 50%;
+  position: absolute;
+  margin: -3px 0 0 9px;
+}

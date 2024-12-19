@@ -1,0 +1,103 @@
+@font-face {
+    font-family: 'Jersey25';
+    src: url('../fonts/Jersey25.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('../fonts/NanumSquareRoundOTFB.otf') format('opentype'); 
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+
+.logo {
+    width: 200px;
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+}
+
+.header-text {
+    text-decoration: none;
+    color: black; /* 로그인, 마이페이지 색상 */
+    font-size: 16px;
+}
+
+.search-bar {
+    position: absolute;
+    right: 400px; /* 오른쪽에서 50px 떨어진 위치에 배치 */
+    top: 50%; /* 세로 중앙에 위치 */
+    transform: translateY(-50%); /* 세로 중앙 정렬 */
+}
+
+
+.search-bar input {
+    width: 300px;
+    padding: 10px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    padding-left: 20px;
+    background-color: #EEF0F7; /* 검색창 배경색 */
+}
+
+.search-bar button {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    background: none;
+    border: none;
+    font-size: 16px;
+}
+
+.search-bar img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.header-btn a {
+    background-color: #324F8A; /* 기본 배경색 */
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-radius: 20px;
+    font-family: 'NanumSquareRound', sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 기본 그림자 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+/* hover 시 스타일 */
+.header-btn a:hover {
+    background-color: #253a63; /* hover 시 배경색 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* hover 시 그림자 강도 증가 */
+}
+
+/* 화면 가로 너비가 1000px 이하일 때 */
+/* 가로 길이가 짧은 경우 헤더의 요소가 겹쳐 깨짐 현상 해결 */
+@media screen and (max-width: 950px) {
+    .search-bar {
+        position: relative; /* 상대 위치로 변경 */
+        left: 0; /* 중앙 정렬 해제 */
+        transform: none; /* 변형 해제 */
+        margin: 10px 0; /* 약간의 여백 추가 */
+    }
+
+    header {
+        flex-direction: column; /* 헤더 요소를 세로로 정렬 */
+        align-items: flex-start; /* 요소들을 왼쪽 정렬 */
+    }
+
+    .nav {
+        margin-top: 10px; /* 메뉴 간 여백 추가 */
+    }
+}

@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'Jersey25';
+    src: url('../fonts/Jersey25-Regular.ttf') format('truetype');
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    text-align: center; 
+    margin-top: -100px;
+}
+
+.logo {
+    width: 450px;
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form input {
+    width: 500px;
+    height: 35px;
+    padding: 10px;
+    margin: 7px 0;
+    border: 3px solid #4B67A1;
+    border-radius: 20px;
+    font-size: 25px;
+}
+
+.login-form input::placeholder {
+    color: #8CA0CC;
+    font-family: 'Jersey25', sans-serif;
+}
+
+.login-form button {
+    height: 60px;
+    padding: 10px;
+    background-color: #4B67A1;
+    color: #DAE6FF;
+    font-family: 'Jersey25', sans-serif;
+    border: none;
+    border-radius: 20px;
+    font-size: 35px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.login-form button:hover {
+    background-color: #2f446b;
+}
+
+.create-account {
+    display: block;
+    margin-top: 15px;
+    color: rgb(124, 124, 124);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.create-account:hover {
+    text-decoration: underline;
+}

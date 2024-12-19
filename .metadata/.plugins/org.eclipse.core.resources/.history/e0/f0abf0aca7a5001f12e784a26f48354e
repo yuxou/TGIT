@@ -1,5 +1,0 @@
-# Database connection parameters
-db.driver=oracle.jdbc.driver.OracleDriver
-db.url=jdbc:mysql://dblab.dongduk.ac.kr/TGIT
-db.username=dbp0106
-db.password=113842

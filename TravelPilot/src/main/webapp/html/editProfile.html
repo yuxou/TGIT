@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelPilot: 회원정보 수정</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../js/birthdate.js"></script>
+    <link rel="stylesheet" href="../css/editProfile.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="icon" href="../img/favicon.png" type="image/png">
+    <script>
+        // header.html 파일을 불러와서 삽입
+        function loadHeader() {
+            fetch('header.html') // header.html 파일을 가져옴
+                .then(response => response.text()) // 텍스트로 변환
+                .then(data => {
+                    document.getElementById('header-container').innerHTML = data; // 가져온 내용을 삽입
+                });
+        }
+
+        // DOM이 로드된 후 header를 불러오기
+        window.onload = function() {
+            loadHeader();
+        };
+    </script>
+</head>
+<body>
+    <div id="header-container"></div>
+    <div class="editProfile-container">
+        <h1>회원정보 수정</h1>
+        <div class="editProfile-section">
+            <div class="profile-info">
+                <div class="idpw-box">
+                    <p><strong>아이디</strong>
+                    <input type="text" placeholder="dongduk12">
+                    <button class="edit-button" onClick="location.href='editAccountInfo.html'">변경하기</button></p>
+                </div>
+                <div class="idpw-box">
+                    <p><strong>비밀번호</strong>
+                    <input type="text" >
+                    <button class="edit-button" onClick="location.href='editAccountInfo.html'">변경하기</button></p>
+                </div>
+                <div class="name-box">
+                    <p><strong>이름</strong>
+                    <input type="text"></p>
+                </div>
+                <div>
+                    <p><strong>생년월일</strong>
+                    <select class="box" name="yy" id="year"><option disabled selected>출생 연도</option></select>
+                    <select class="box" name="mm" id="month"><option disabled selected>월</option></select>
+                    <select class="box" name="dd" id="day"><option disabled selected>일</option></select></p>
+                </div>
+                <div class="email-box">
+                    <p><strong>이메일</strong>
+                    <input type="text">&emsp;@
+                    <select class="box" id="domain-list">
+                      <option value="naver.com">naver.com</option>
+                      <option value="gmail.com">gmail.com</option>
+                      <option value="hanmail.net">hanmail.net</option>
+                      <option value="nate.com">nate.com</option>
+                    </select></p>
+                </div>
+                <button class="cancel-button" onClick="location.href='myPage.html'">취소</button>
+                <button class="ok-button" onClick="location.href='myPage.html'">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
