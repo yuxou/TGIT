@@ -3,7 +3,6 @@ package controller.plan;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.Controller;
 import model.domain.Plan;
 import model.domain.User;
 import model.service.PlanManager;

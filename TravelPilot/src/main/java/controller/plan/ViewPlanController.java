@@ -2,8 +2,8 @@ package controller.plan;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
-import controller.Controller;
 import model.domain.Plan;
 import model.service.PlanManager;
 
@@ -11,16 +11,19 @@ public class ViewPlanController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        int planId = Integer.parseInt(request.getParameter("planId"));
-        String userId = (String) request.getSession().getAttribute("userId");
+        String keyword = request.getParameter("keyword"); // 키워드 가져오기
 
         PlanManager planManager = PlanManager.getInstance();
-        Plan plan = planManager.findPlanById(planId).orElse(null); // Plan 조회
 
-        // Plan이 존재하지 않거나 권한이 없으면 데이터 전달하지 않음
-        if (plan != null && (plan.isPublic() || planManager.isUserAuthorizedForPlan(planId, userId))) {
-            request.setAttribute("plan", plan); // Plan 정보만 전달
+        List<Plan> plans;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            plans = planManager.getAllPlans(); // 키워드 없이 모든 계획 조회
+        } else {
+            plans = planManager.getAllPlans(keyword); // 키워드 기반 계획 조회
         }
+
+        // 조회 결과를 요청에 전달
+        request.setAttribute("plans", plans);
 
         return "/myPage.jsp";
     }

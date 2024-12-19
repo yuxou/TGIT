@@ -3,11 +3,8 @@ package controller.plan;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.Controller;
 import model.domain.User;
 import model.service.PlanManager;
-
-import java.util.List;
 
 public class CompanionController implements Controller {
 
@@ -15,49 +12,31 @@ public class CompanionController implements Controller {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String action = request.getParameter("action");
 
+        PlanManager planManager = PlanManager.getInstance();
+
         if ("add".equals(action)) {
-            return addCompanion(request);
+            return addCompanion(request, planManager);
         } else if ("remove".equals(action)) {
-            return removeCompanion(request);
-        } else if ("view".equals(action)) {
-            return viewCompanions(request);
+            return removeCompanion(request, planManager);
         }
-        return null; 
+        return "/myPage.jsp";
     }
 
-    /**
-     * 동반자 추가
-     */
-    private String addCompanion(HttpServletRequest request) {
+    private String addCompanion(HttpServletRequest request, PlanManager planManager) {
         int planId = Integer.parseInt(request.getParameter("planId"));
         String companionId = request.getParameter("companionId");
 
-        PlanManager planManager = PlanManager.getInstance();
         planManager.addCompanionToPlan(planId, new User(companionId, null, null, null, null));
 
-        return "/myPage.jsp"; 
+        return "/myPage.jsp";
+    }
 
-    /**
-     * 동반자 제거
-     */
-    private String removeCompanion(HttpServletRequest request) {
+    private String removeCompanion(HttpServletRequest request, PlanManager planManager) {
         int planId = Integer.parseInt(request.getParameter("planId"));
         String companionId = request.getParameter("companionId");
 
-        PlanManager planManager = PlanManager.getInstance();
         planManager.deleteCompanion(planId, companionId);
 
         return "/myPage.jsp";
-
-    /**
-     * 동반자 조회
-     */
-    private String viewCompanions(HttpServletRequest request) {
-        int planId = Integer.parseInt(request.getParameter("planId"));
-
-        PlanManager planManager = PlanManager.getInstance();
-        List<User> companions = planManager.getCompanionsByPlanId(planId);
-        request.setAttribute("companions", companions);
-
-        return "/myPage.jsp"; 
+    }
 }
