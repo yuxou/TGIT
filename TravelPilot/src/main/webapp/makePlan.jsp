@@ -13,7 +13,7 @@
         <div class="left-section" style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
             <div class="trip-info" style="display: flex; align-items: center; gap: 10px;">
                 <a href="#" class="trip-info-trigger" onclick="togglePopup(event, 'popup-menu-users')">
-                    <img src="../img/user2.png" alt="User2 Icon" width="24" height="24">
+                    <img src="img/user2.png" alt="User2 Icon" width="24" height="24">
                     <h3 id="companion-info" style="font-size: 18px; color: #333; margin: 0;">
                         <%= request.getAttribute("companionInfo") != null ? request.getAttribute("companionInfo") : "동행인을 선택하세요" %>
                     </h3>
@@ -36,7 +36,7 @@
             <div class="trip-details">
                 <div class="details-title-container">
                     <h2 class="details-title">여행 일정</h2>
-                    <img src="../img/calendar.png" alt="Calendar Icon" class="calendar-icon" onclick="toggleCalendarPopup(event)">
+                    <img src="img/calendar.png" alt="Calendar Icon" class="calendar-icon" onclick="toggleCalendarPopup(event)">
                 </div>
                 <div class="date-picker-container">
                     <p class="details-text" id="selected-dates">

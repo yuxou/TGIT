@@ -13,15 +13,20 @@
             <img class="logo" src="${pageContext.request.contextPath}/img/logo.png" alt="로고">
         </a>
 
+        <!-- 검색 바 -->
         <div class="search-bar">
-            <input type="text" placeholder="장소 및 일정 검색">
-            <a href="${pageContext.request.contextPath}/search.jsp">
-                <button>
-                    <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="돋보기 아이콘" onclick="search()">
+            <!-- 검색 form -->
+            <form action="${pageContext.request.contextPath}/search.jsp" method="get" class="search-form">
+                <!-- 검색 키워드 입력 -->
+                <input type="text" name="keyword" placeholder="장소 및 일정 검색" required>
+                <!-- 검색 버튼 -->
+                <button type="submit">
+                    <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="돋보기 아이콘">
                 </button>
-            </a>
+            </form>
         </div>
 
+        <!-- 네비게이션 -->
         <nav class="nav">
             <div class="header-btn">
                 <a href="${pageContext.request.contextPath}/planMain.jsp">계획하기</a>
