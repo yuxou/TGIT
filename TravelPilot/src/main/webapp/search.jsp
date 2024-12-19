@@ -69,7 +69,7 @@
 		        const photoUrl =
 		            place.photos && place.photos[0]
 		                ? place.photos[0].getUrl({ maxWidth: 100, maxHeight: 70 })
-		                : "/img/default-image.png";
+		                : "img/defaultPlaceImage.jpg";
 		        const rating = place.rating ?? "N/A";
 		        const userRatingsTotal = place.user_ratings_total ?? 0;
 		

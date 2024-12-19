@@ -3,6 +3,13 @@
     src: url('../fonts/NanumSquareRoundOTFB.otf') format('opentype'); 
 }
 
+/* 장소 카드 컨테이너 */
+#places-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
+    gap: 20px; /* 카드 간 간격 */
+    margin: 0 auto;
+}
 
 body {
     font-family: 'NanumSquareRound', sans-serif;
@@ -33,24 +40,39 @@ h2 {
 .highlight {
     color: #194091; /* '이치란 라멘' 텍스트에 파란색 적용 */
 }
+/* 장소 카드 스타일 */
 .place-card {
-    display: inline-block;
-    width: 30%;
-    margin-left: 2%;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
     text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
+
+.place-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .place-card img {
-    width: 90%;
+    width: 80%;
     height: auto;
 }
 .place-card h3 {
-    font-size: 25px;
-    margin: 10px 0 5px;
+    font-size: 18px; /* 제목 크기 조정 */
+    margin: 5px 0;
+    color: #333;
 }
 .place-card p {
+    font-size: 14px; /* 텍스트 크기 조정 */
+    color: #777;
     margin: 5px 0;
-    color: gray;
 }
 .schedule {
     padding: 20px;
