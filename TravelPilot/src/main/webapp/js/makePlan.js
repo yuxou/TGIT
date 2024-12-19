@@ -423,6 +423,36 @@ function updateCompanionInfo() {
 // 함수 호출로 초기 상태 업데이트
 updateCompanionInfo();
 
+function removeCompanion(index) {
+    if (index === 0) {
+        console.warn("작성자는 삭제할 수 없습니다.");
+        return;
+    }
+
+    const companion = companions[index];
+    if (!companion) {
+        console.error("Invalid companion index:", index);
+        return;
+    }
+    
+     // 이벤트 전파 중지 (팝업 닫기 방지)
+    if (event) {
+        event.stopPropagation();
+    }
+
+    // 동행인 배열에서 삭제
+    companions.splice(index, 1);
+
+    // 미동행인 배열로 추가
+    nonCompanions.push(companion);
+
+    console.log(`동행인 "${companion.name}" 삭제.`);
+
+    // UI 업데이트
+    renderCompanionList();
+    updateCompanionInfo();
+}
+
 function initializeCompanionPopup() {
     console.log("Initializing companion popup...");
 
@@ -454,10 +484,19 @@ function renderCompanionList() {
 
     companionList.innerHTML = ""; // 기존 리스트 초기화
 
-    companions.forEach(user => {
+    companions.forEach((user, index) => {
         const li = document.createElement("li");
         li.textContent = `${user.name} (${user.email})`; // 이름과 이메일 표시
         li.classList.add("companion-item");
+
+        if (index !== 0) {
+            // 작성자(0번 인덱스)를 제외하고 삭제 가능
+            li.addEventListener("click", () => removeCompanion(index));
+        } else {
+            // 작성자는 클릭해도 아무 동작하지 않음
+            li.style.cursor = "not-allowed";
+        }
+
         companionList.appendChild(li);
     });
 
@@ -510,6 +549,7 @@ function filterPopupMenu() {
     // 입력창 초기화
     keywordInput.value = ""; // 입력창 비우기
 }
+
 
 function selectCompanion(user) {
     console.log(`사용자 선택됨: ${user.name} (${user.email})`);
