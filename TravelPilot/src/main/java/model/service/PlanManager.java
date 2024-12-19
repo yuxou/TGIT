@@ -8,13 +8,18 @@ import model.domain.Flight;
 import model.domain.Plan;
 
 public class PlanManager {
+	private static final PlanManager instance = new PlanManager(new PlanDAO());
     private PlanDAO planDAO;
 
-    // 생성자
-    public PlanManager(PlanDAO planDAO) {
+    //생성자
+    private PlanManager(PlanDAO planDAO) {
         this.planDAO = planDAO;
     }
 
+    public static PlanManager getInstance() {
+        return instance;
+    }
+    
     /**
      * 새로운 계획 생성
      * @param plan

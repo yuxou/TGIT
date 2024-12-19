@@ -8,13 +8,18 @@ import model.dao.ReviewDAO;
 import model.domain.Review;
 
 public class ReviewManager {
+    private static final ReviewManager instance = new ReviewManager(new ReviewDAO());
     private ReviewDAO reviewDAO;
 
     // 생성자
     public ReviewManager(ReviewDAO reviewDAO) {
         this.reviewDAO = reviewDAO;
     }
-
+    
+    public static ReviewManager getInstance() {
+        return instance;
+    }
+    
     /**
      * 새로운 리뷰 추가
      * @param review

@@ -8,6 +8,7 @@ import model.domain.Checklist;
 import model.domain.ChecklistItem;
 
 public class ChecklistManager {
+	private static final ChecklistManager instance = new ChecklistManager(new ChecklistDAO());
     private ChecklistDAO checklistDAO;
 
     // 생성자
@@ -15,6 +16,10 @@ public class ChecklistManager {
         this.checklistDAO = checklistDAO;
     }
 
+    public static ChecklistManager getInstance() {
+        return instance;
+    }
+    
     /**
      * 새로운 체크리스트 생성
      * @param checklist

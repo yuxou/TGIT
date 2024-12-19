@@ -7,11 +7,16 @@ import model.domain.Place;
 import model.domain.Weather;
 
 public class PlaceManager {
+    private static final PlaceManager instance = new PlaceManager(new PlaceDAO());
     private PlaceDAO placeDAO;
 
     // 생성자
     public PlaceManager(PlaceDAO placeDAO) {
         this.placeDAO = placeDAO;
+    }
+    
+    public static PlaceManager getInstance() {
+        return instance;
     }
 
     /**

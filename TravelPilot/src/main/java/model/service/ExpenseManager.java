@@ -6,6 +6,7 @@ import model.dao.ExpenseDAO;
 import model.domain.Expense;
 
 public class ExpenseManager {
+	private static final ExpenseManager instance = new ExpenseManager(new ExpenseDAO());
     private ExpenseDAO expenseDAO;
 
     // 생성자
@@ -13,6 +14,10 @@ public class ExpenseManager {
         this.expenseDAO = expenseDAO;
     }
 
+    public static ExpenseManager getInstance() {
+        return instance;
+    }
+   
     /**
      * 지출 추가
      * @param expense
