@@ -142,7 +142,7 @@ public class ReviewDAO {
      * @return
      * @throws SQLException
      */
-    private List<Review> getAllReviews() throws SQLException {
+    public List<Review> getAllReviews() throws SQLException {
         List<Review> reviews = new ArrayList<>();
         String sql = "SELECT * FROM reviews"; 
         jdbcUtil.setSqlAndParameters(sql, null); // SQL 설정
