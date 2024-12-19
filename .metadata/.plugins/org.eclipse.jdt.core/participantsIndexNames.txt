@@ -1,3 +1,0 @@
-INDEX VERSION 1.134
-/Users/soojin/Desktop/b/TGIT_Backend/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/2756844091.index
-/TravelPilot/src/main/java
