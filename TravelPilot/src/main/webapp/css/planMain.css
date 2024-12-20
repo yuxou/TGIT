@@ -163,3 +163,72 @@ h2 {
     /* border: 1px solid #324F8A; */
     align-items: stretch;
 }
+
+/* 토글 스위치 스타일 */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 120px; /* 슬라이더 가로 크기 */
+    height: 40px; /* 슬라이더 세로 크기 */
+    margin-left: 20px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 40px; /* 슬라이더 모서리 둥글기 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px; /* 텍스트 크기 */
+    color: white; /* 텍스트 색상 */
+    font-family: Arial, sans-serif;
+    padding: 0 10px; /* 텍스트 여백 추가 */
+    box-sizing: border-box; /* 패딩 포함 박스 모델 */
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 36px; /* 동그라미 높이 */
+    width: 36px; /* 동그라미 너비 */
+    left: 2px; /* 동그라미 초기 위치 */
+    bottom: 2px; /* 동그라미 초기 위치 */
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #324F8A; /* 활성 상태 배경색 */
+}
+
+input:checked + .slider:before {
+    transform: translateX(80px); /* 활성 상태 동그라미 이동 거리 */
+}
+
+.slider::after {
+    content: "Private"; /* 기본 비공개 상태 */
+    position: absolute;
+    right: 20px; /* 오른쪽 정렬 */
+    text-align: right;
+}
+
+input:checked + .slider::after {
+    content: "Public"; /* 공개 상태 */
+    position: absolute;
+    left: 20px; /* 왼쪽 정렬 */
+    text-align: left;
+}

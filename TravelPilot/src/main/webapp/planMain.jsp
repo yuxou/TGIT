@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,18 +37,28 @@
 	        
 	        
 	        initMap();	
-	        // content-container의 innerHTML에 makePlan.jsp 관련 요소가 있는지 확인
-	        /* const isMakePlanLoaded = contentContainer.innerHTML.includes("id=\"map\"");
-	
-	        if (isMakePlanLoaded && typeof initMap === "function") {
-	            console.log("makePlan.jsp is loaded. Initializing Google Map...");
-	            initMap();
-	        } else if (!isMakePlanLoaded) {
-	            console.log("makePlan.jsp is not currently loaded.");
-	        } else {
-	            console.error("initMap function is not defined.");
-	        } */
 	    });
+	    
+	    document.querySelector(".save-btn").addEventListener("click", () => {
+            const isPublic = document.getElementById("isPublic").value === "true";
+            
+            fetch("/editPlan", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    planId: ${plan.planId}, // 현재 계획 ID
+                    isPublic: isPublic
+                }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("계획이 성공적으로 저장되었습니다.");
+                } else {
+                    alert("저장에 실패했습니다.");
+                }
+            })
+            .catch(error => console.error("저장 중 오류 발생:", error));
+        });
     </script>
 </head>
 <body>
@@ -59,6 +70,12 @@
             <input type="text" value="제목을 입력하세요.">
             <div class="actions">
                 <button class="save-btn">저장</button>
+                <div class="visibility-container">
+				    <label class="toggle-switch">
+				        <input type="checkbox" id="isPublic" name="isPublic" <c:if test="${plan.isPublic}">checked</c:if> />
+				        <span class="slider"></span>
+				    </label>
+</div>
                 <nav class="tabs">
                     <button id="planTab" class="tab active" onclick="showContent('makePlan')">일정</button>
                     <button id="checklistTab" class="tab" onclick="showContent('planChecklist')">체크리스트</button>
