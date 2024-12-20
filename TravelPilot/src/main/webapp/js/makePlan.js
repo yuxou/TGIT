@@ -69,10 +69,40 @@ function showContent(content) {
         document.getElementById('planTab').classList.add('active');
         document.getElementById('checklistTab').classList.remove('active');
     } else if (content === 'planChecklist') {
-        loadHTML('planChecklist.jsp', 'content-container');
+        loadJSP('planChecklist.jsp', 'content-container');
         document.getElementById('checklistTab').classList.add('active');
         document.getElementById('planTab').classList.remove('active');
     }
+}
+
+function loadJSP(jspFile, containerId, callback) {
+    const container = document.getElementById(containerId);
+
+    if (!container) {
+        console.error(`Container with ID "${containerId}" not found.`);
+        return;
+    }
+
+    fetch(jspFile)
+        .then((response) => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                console.error(`Failed to load JSP: ${jspFile}`);
+            }
+        })
+        .then((html) => {
+            if (html) {
+                container.innerHTML = html;
+                console.log(`Loaded ${jspFile} into #${containerId}`);
+                if (typeof callback === "function") {
+                    callback();
+                }
+            }
+        })
+        .catch((error) => {
+            console.error(`Error loading JSP file "${jspFile}":`, error);
+        });
 }
 
 function toggleItinerary() {

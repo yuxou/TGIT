@@ -59,6 +59,7 @@
             })
             .catch(error => console.error("저장 중 오류 발생:", error));
         });
+	    
     </script>
 </head>
 <body>
@@ -75,7 +76,7 @@
 				        <input type="checkbox" id="isPublic" name="isPublic" <c:if test="${plan.isPublic}">checked</c:if> />
 				        <span class="slider"></span>
 				    </label>
-</div>
+				</div>
                 <nav class="tabs">
                     <button id="planTab" class="tab active" onclick="showContent('makePlan')">일정</button>
                     <button id="checklistTab" class="tab" onclick="showContent('planChecklist')">체크리스트</button>
