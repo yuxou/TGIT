@@ -16,7 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pikaday@1.8.2/pikaday.js"></script>
     <!-- Google Maps API 로드 -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqNJI6gdzgK53NXv9JqHDeMXYPvZaQypU&libraries=places" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqNJI6gdzgK53NXv9JqHDeMXYPvZaQypU&libraries=places&callback=initMap" async defer></script>
     <!-- js 파일 로드 -->
     <script src="js/makePlan.js"></script>
     <script src="js/calendar.js"></script>
@@ -33,9 +33,11 @@
 	            console.error("content-container not found.");
 	            return;
 	        }
-	
+	        
+	        
+	        initMap();	
 	        // content-container의 innerHTML에 makePlan.jsp 관련 요소가 있는지 확인
-	        const isMakePlanLoaded = contentContainer.innerHTML.includes("id=\"map\"");
+	        /* const isMakePlanLoaded = contentContainer.innerHTML.includes("id=\"map\"");
 	
 	        if (isMakePlanLoaded && typeof initMap === "function") {
 	            console.log("makePlan.jsp is loaded. Initializing Google Map...");
@@ -44,7 +46,7 @@
 	            console.log("makePlan.jsp is not currently loaded.");
 	        } else {
 	            console.error("initMap function is not defined.");
-	        }
+	        } */
 	    });
     </script>
 </head>

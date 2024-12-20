@@ -96,6 +96,32 @@ function toggleItinerary() {
     }
 }
 
+function toggleItinerary2(event) {
+    const daySection = event.currentTarget.closest(".day-section"); // 이벤트 발생한 day-section 찾기
+    if (!daySection) {
+        console.error("daySection not found");
+        return;
+    }
+
+    const placeList = daySection.querySelector(".place-list");
+    const toggleIcon = daySection.querySelector(".toggle-icon");
+
+    if (!placeList) {
+        console.error("placeList not found in the current daySection");
+        return;
+    }
+
+    console.log("Toggling placeList visibility:", placeList);
+
+    if (placeList.classList.contains("show")) {
+        placeList.classList.remove("show");
+        toggleIcon.textContent = "▼";
+    } else {
+        placeList.classList.add("show");
+        toggleIcon.textContent = "▲";
+    }
+}
+
 function addCountry() {
     // 입력 필드 값 가져오기
     const countryInput = document.getElementById("popup-search-users");
